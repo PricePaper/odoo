@@ -1,0 +1,43 @@
+<odoo>
+    <data>
+        <menuitem id="website_scraping_root"
+            name="Competitor Prices"
+            web_icon="website_scraping,static/description/icon.png"
+            active="True"
+            sequence="50"
+            groups="website_scraping.group_website_scraping"
+            />
+        <menuitem id="menu_webscrap_settings"
+            name="Settings"
+            parent="website_scraping.website_scraping_root"
+            sequence="2" />
+        <menuitem id="menu_product_sku_ref"
+            name="Product SKU Reference"
+            action="action_product_sku_reference"
+            parent="website_scraping.menu_webscrap_settings"
+            sequence="1" />
+        <menuitem id="menu_website_scraping_config"
+            name="Website Configuration"
+            action="action_website_scraping_config"
+            parent="website_scraping.menu_webscrap_settings"
+            sequence="2" />
+        <menuitem id="menu_website_scrap_catalog"
+            name="Catalog"
+            parent="website_scraping.website_scraping_root"
+            sequence="1" />
+        <menuitem id="menu_competitor_price"
+            name="Competitor Prices"
+            action="action_competitor_website_price"
+            parent="website_scraping.menu_website_scrap_catalog"
+            sequence="2" />
+
+        <menuitem id="menu_price_fetch_schedule_queue"
+            name="Manual Price Fetch Scheduler Queue"
+            action="action_price_fetch_schedule"
+            parent="website_scraping.menu_website_scrap_catalog"
+            sequence="2" />
+
+
+
+    </data>
+</odoo>

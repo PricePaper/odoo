@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="stock_picking_batch_kanban" model="ir.ui.view">
+            <field name="name">stock.picking.batch.kanban</field>
+            <field name="model">stock.picking</field>
+            <field name="priority" eval="1"/>
+            <field name="arch" type="xml">
+                <kanban default_group_by="route_id" create="0" delete="0" group_create="0">
+                    <field name="route_id"/>
+                    <field name="partner_loc_url"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div t-attf-class="oe_kanban_global_click">
+                                <div class="oe_kanban_content">
+                                    <div>
+                                        <strong class="o_kanban_record_title"><field name="name"/></strong>
+                                    </div>
+                                    <div class="text-muted o_kanban_record_subtitle">
+                                      <b><field name="origin"/></b>
+                                    </div>
+                                    <div>
+                                        <b>Earliest Delivery Date:</b>
+                                        <field name="release_date"/>
+                                    </div>
+                                    <div>
+                                        <b>Deliver By:</b>
+                                        <field name="deliver_by"/>
+                                    </div>
+                                    <div class="text-muted o_kanban_record_subtitle">
+                                        <div>
+                                            <b><field name="partner_id"/></b>
+                                        </div>
+                                      <div>
+                                          <field name="street"/>
+                                          <field name="street2"/>
+                                      </div>
+                                      <div>
+                                          <field name="city"/>
+                                          <field name="state_id"/>
+                                          <field name="zip"/><br/>
+                                          <t t-if="record.partner_loc_url.raw_value">
+                                            <field name="partner_loc_url" widget="url" text="View Location"/>
+                                          </t>
+                                      </div>
+                                    </div>
+                                    <div>
+                                        <b>Item Count:</b>
+                                        <field name="item_count"/>
+                                    </div>
+                                    <div>
+                                        <b>Status:</b>
+                                        <field name="state"/>
+                                    </div>
+                                    <div>
+                                        <b>Easiness Of Shipping:</b>
+                                        <field name="shipping_easiness"/>
+                                    </div>
+                                    <div class="text-muted o_kanban_record_subtitle">
+                                      <strong><i><field name="delivery_notes"/></i></strong>
+                                    </div>
+                                </div>
+                                <div class="oe_clear"/>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+        <record id="view_picking_internal_search_inherit_price_paper" model="ir.ui.view">
+            <field name="name">stock.picking.internal.search</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="stock.view_picking_internal_search"/>
+            <field name="arch" type="xml">
+                <filter name="late" position="after">
+                    <filter string="Earliest Delivery Today" name="release_date"
+                        domain="[('release_date', '=', context_today().strftime('%Y-%m-%d'))]"/>
+                    <filter string="Deliver By Today" name="deliver_by"
+                        domain="[('deliver_by', '=', context_today().strftime('%Y-%m-%d'))]"/>
+                    <filter string="Earliest Delivery Tomorrow" name="release_date_tomorrow"
+                        domain="[('release_date', '=', ((context_today()+datetime.timedelta(days=1)).strftime('%Y-%m-%d')))]"/>
+                    <filter string="Deliver By Tomorrow" name="deliver_by_tomorrow"
+                        domain="[('deliver_by', '=', ((context_today()+datetime.timedelta(days=1)).strftime('%Y-%m-%d')))]"/>
+                </filter>
+            </field>
+        </record>
+
+
+
+        <record model="ir.actions.act_window" id="stock_picking_act_route_assign">
+            <field name="name">Delivery Orders</field>
+            <field name="res_model">stock.picking</field>
+            <field name="view_mode">kanban,tree</field>
+            <field name="domain">[('state','in', ['confirmed', 'assigned', 'done']), ('picking_type_code', '=', 'outgoing'), '|', ('route_id', '=', False), ('route_id.set_active', '=', True)]</field>
+            <field name="context">{"search_default_release_date_tomorrow":1}</field>
+            <field name="search_view_id" ref="stock.view_picking_internal_search"/>
+
+        </record>
+
+
+        <record model="ir.actions.act_window.view" id="action_stock_picking_driver_kanban">
+            <field name="sequence" eval="1"/>
+            <field name="view_mode">kanban</field>
+            <field name="view_id" ref="stock_picking_batch_kanban"/>
+            <field name="act_window_id" ref="stock_picking_act_route_assign"/>
+        </record>
+
+        <record model="ir.actions.act_window.view" id="action_stock_picking_driver_tree">
+            <field name="sequence" eval="5"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="stock.vpicktree"/>
+            <field name="act_window_id" ref="stock_picking_act_route_assign"/>
+        </record>
+
+        <record model="ir.actions.act_window.view" id="action_stock_picking_driver_form">
+            <field name="sequence" eval="10"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="stock.view_picking_form"/>
+            <field name="act_window_id" ref="stock_picking_act_route_assign"/>
+        </record>
+
+
+
+        <menuitem id="assign_routes"
+            name="Assign Route"
+            action="stock_picking_act_route_assign"
+            parent="stock.menu_stock_warehouse_mgmt"
+            sequence="9"
+             />
+
+
+
+
+
+
+
+
+        <record id="view_picking_form_inherit_price_paper" model="ir.ui.view">
+            <field name="name">stock.picking.batch.delivery</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="stock.view_picking_form"/>
+            <field name="arch" type="xml">
+
+
+            <button name="button_validate" position="after">
+                <button name="deliver_products" type="object" string="Mark as Delivered" attrs="{'invisible': ['|', ('state', '!=', 'done'), ('picking_type_code', '=', 'incoming')]}"/>
+            </button>
+
+
+            <field name="state" position="attributes">
+                <attribute name="statusbar_visible">draft,confirmed,partially_available,assigned,done,delivered</attribute>
+            </field>
+
+
+                <xpath expr="//field[@name='move_line_ids']/tree/field[@name='lot_id']" position="after">
+                    <field name="pref_lot_id" domain="[('product_id', '=', product_id)]"/>
+                </xpath>
+
+
+                <xpath expr="//notebook" position="inside">
+                  <page string="Delivery Operations">
+                    <separator string="Delivery Moves"/>
+                    <field name="delivery_move_ids" readonly="1">
+                        <tree>
+                            <field name="product_id"/>
+                            <field name="product_uom_qty" string="Initial Demand"/>
+                            <field name="reserved_availability" string="Reserved"/>
+                            <field name="quantity_done" string="Done"/>
+                            <field name="product_uom" string="Unit of Measure"/>
+                            <field name="state" invisible="1"/>
+                        </tree>
+                    </field>
+
+                    <separator string="Delivery Move Lines"/>
+                    <field name="delivery_move_line_ids" readonly="1"/>
+                  </page>
+                </xpath>
+
+
+
+            </field>
+        </record>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </data>
+</odoo>

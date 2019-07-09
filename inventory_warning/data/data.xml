@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+
+
+        <record id="purchase_team_low_inventory" model="helpdesk.team">
+            <field name="name">Purchase Team</field>
+            <field name="is_purchase_team" eval="True"/>
+        </record>
+
+
+    </data>
+</odoo>

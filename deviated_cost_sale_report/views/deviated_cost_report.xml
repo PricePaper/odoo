@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+    <template id="deviated_cost_report">
+        <t t-call="web.html_container">
+            <t t-set="company" t-value="res_company"/>
+            <t t-foreach="orders" t-as="order">
+                <div class="header o_background_header">
+                    <div class="col-xs-6">
+                        <img t-if="company.logo" t-att-src="'data:image/png;base64,%s' % to_text(company.logo)" class="pull-left"/>
+                    </div>
+                    <div t-if="company.logo" class="row zero_min_height">
+                        <div class="col-xs-12">
+                            <div style="border-bottom: 2px solid black;"/>
+                        </div>
+                    </div>
+                    <div class="pull-right text-right col-xs-12">
+                        <span t-field="company.partner_id.phone"/>
+                    </div>
+                    <div class="pull-left company_address col-xs-8">
+                        <div>
+                            <strong t-field="company.partner_id.name"/>
+                        </div>
+                        <span t-field="company.partner_id"
+                            t-field-options='{"widget": "contact", "fields": ["address","email"], "no_marker": true}'/>
+                    </div>
+                </div>
+                <div class="article">
+                    <div class="page" style="margin-top:25px;">
+                        <div class="row text-center">
+                            <strong><h3>VENDOR REBATE REPORT</h3></strong>
+                        </div>
+                        <div class="row" style="margin-left:10px;">
+                            AS OF : <span t-esc="datetime.datetime.strptime(data.get('from_date'), '%Y-%m-%d %H:%M:%S').strftime('%Y-%m-%d')"/>
+                            <br></br>
+                            ON : <span t-esc="datetime.datetime.strptime(data.get('to_date'), '%Y-%m-%d %H:%M:%S').strftime('%Y-%m-%d')"/>
+                        </div>
+                        <div>
+                            <table class="table table-bordered" width="100%">
+                                <tr>
+                                    <td colspan="7" class="text-center"><b>Vendor : <span t-esc="order.get('vendor_name')"/></b></td>
+                                </tr>
+                                <t t-set= "grand_deviated_cost" t-value="0"/>
+                               <t t-foreach="order.get('order_lines')" t-as="order_line">
+                                    <tr>
+                                        <td colspan="7" class="text-left"><b><span t-esc="order_line.get('contract_id').name"/></b></td>
+                                    </tr>
+                                    <tr>
+                                        <td width="5%">SO No.</td>
+                                        <td width="22%">Date</td>
+                                        <td width="25%">Product</td>
+                                        <td width="5%">Quantity</td>
+                                        <td width="13%">Fixed</td>
+                                        <td width="10%">Deviated</td>
+                                        <td width="20%">Rebate</td>
+                                    </tr>
+                                    <t t-set= "total_deviated_cost" t-value="0"/>
+                                    <t t-foreach="order_line.get('lines')" t-as="line">
+                                        <tr>
+                                            <t t-set= "total_deviated_cost" t-value="total_deviated_cost+line.get('deviated_cost')"/>
+                                            <td><span t-esc="line.get('so_number')"/></td>
+                                            <td><span t-esc="line.get('date')"/></td>
+                                            <td><span t-esc="line.get('product')"/></td>
+                                            <td><span t-esc="line.get('qty')"/></td>
+                                            <td><span t-esc="line.get('unit_cost_purchased')"/></td>
+                                            <td><span t-esc="line.get('unit_cost_sold')"/></td>
+                                            <td><span t-esc="line.get('deviated_cost')"/></td>
+                                        </tr>
+                                    </t>
+                                    <tr>
+                                        <td colspan="6"><b style="padding-left:700px">Total</b></td>
+                                        <td><b><span t-esc="total_deviated_cost"/></b></td>
+                                    </tr>
+                                    <t t-set= "grand_deviated_cost" t-value="grand_deviated_cost+total_deviated_cost"/>
+                                </t>
+                                <tr>
+                                    <td colspan="7" style="border-left:hidden;border-right:hidden;border-bottom:hidden"><b style="padding-left:650px">Grand Total :
+                                    <span style="padding-left:20px" t-esc="grand_deviated_cost"/></b></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="footer">
+                    <div class="row" style="border-top: 2px solid black;">
+                        <div  class="pull-left" style="margin-top: 10px;" t-if="company.website">
+                            <span t-field="company.website"/>
+                        </div>
+                        <div class="text-right" style="margin-top: 10px;">
+                            Page : <span class="page"/>
+                        </div>
+                    </div>
+                </div>
+            </t>
+        </t>
+    </template>
+</odoo>

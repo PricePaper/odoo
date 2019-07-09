@@ -1,0 +1,30 @@
+<odoo>
+    <data>
+        <record id="res_company_inherit_pricepaper_crm" model="ir.ui.view">
+            <field name="name">res.company.pricepaper</field>
+            <field name="model">res.company</field>
+            <field name="inherit_id" ref="base.view_company_form" />
+            <field name="arch" type="xml">
+                <xpath expr="//notebook" position="attributes">
+                    <attribute name='colspan'>2</attribute>
+                </xpath>
+                <xpath expr="//form[1]/sheet[1]/notebook[1]" position="inside">
+                    <page string='Customer Ranking'>
+                        <group>
+                            <group>
+                                <field name="amount_a" />
+                                <field name="amount_b" />
+                                <field name="amount_c" />
+                            </group>
+                            <group>
+                                <field name="amount_d" />
+                                <field name="amount_e" />
+                                <field name="amount_f" />
+                            </group>
+                        </group>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

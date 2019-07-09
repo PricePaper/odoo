@@ -1,0 +1,83 @@
+<odoo>
+    <data>
+        <record id="view_customer_purchase_history_tree" model="ir.ui.view">
+            <field name="name">customer.purchase.history.tree</field>
+            <field name="model">customer.price.history</field>
+            <field name="arch" type="xml">
+                <tree string="Price History" create="0" delete="0">
+                    <field name="partner_id" />
+                    <field name="order_line_id" invisible='True'/>
+                    <field name="order_id" />
+                    <field name="product_id" />
+                    <field name="product_uom_id" />
+                    <field name="cost" />
+                    <field name="is_tax_applied" />
+                    <field name="order_date" />
+                    <field name="superseded"/>
+                    <field name="is_last" />
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_customer_purchase_history_search" model="ir.ui.view">
+            <field name="name">customer.purchase.history.search</field>
+            <field name="model">customer.price.history</field>
+            <field name="arch" type="xml">
+                <search string="Search Purchase History">
+                    <field name="partner_id" operator="child_of" string="Customer" />
+                    <field name="product_id" string="Product" />
+                    <field name="order_id" string="Sale order"/>
+                    <filter string="Last Purchase" name="is_last" domain="[('is_last','=',1)]"/>
+                    <filter string="Superseded" name="super_seded" domain="[('superseded','!=',False)]"/>
+                    <group expand="0" string="Group By">
+                        <filter string="Product" name="groupby_product" domain="[]" context="{'group_by':'product_id'}"/>
+                        <filter string="Customer" name="groupby_customer" domain="[]" context="{'group_by':'partner_id'}"/>
+                        <filter string="Month" name="groupby_date" domain="[]" context="{'group_by':'order_date'}"/>
+                    </group>
+
+                </search>
+            </field>
+        </record>
+
+        <record id="view_customer_purchase_history_form" model="ir.ui.view">
+            <field name="name">customer.purchase.history.form</field>
+            <field name="model">customer.price.history</field>
+            <field name="arch" type="xml">
+                <form string="Purchase History" create="0" delete="0" edit="0">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="partner_id"/>
+                                <field name="order_line_id" invisible='True' />
+                                <field name="order_id"/>
+                                <field name="order_date"/>
+                            </group>
+                            <group>
+                                <field name="product_id"/>
+                                <field name="product_uom_id" />
+                                <field name="cost"/>
+                                <field name="is_tax_applied"/>
+                                <field name="superseded"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_purchase_history" model="ir.actions.act_window">
+            <field name="name">Customer Purchase History</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">customer.price.history</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="view_customer_purchase_history_search"/>
+            <field name="context">{"search_default_is_last":1}</field>
+            <field name="help" type="html">
+              <p>
+                No purchase History Found.
+              </p>
+            </field>
+        </record>
+    </data>
+</odoo>

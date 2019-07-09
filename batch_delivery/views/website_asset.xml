@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	<!-- inherit from web assets backend -->
+	<template id="google_maps" name="google_maps assets"
+		inherit_id="website_google_map.google_map">
+		<xpath expr="//script[@src='/website_google_map/static/src/js/website_google_map.js']" position="replace">
+
+			<script type="text/javascript" src="/batch_delivery/static/src/js/website_google_maps.js"></script>
+
+		</xpath>
+
+	</template>
+
+</odoo>

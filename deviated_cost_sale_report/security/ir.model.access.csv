@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_deviated_cost_contract,access_deviated_cost_contract_user,model_deviated_cost_contract,base.group_user,1,1,1,1
+access_res_category_product_cost,access_product_cost_user,model_res_category_product_cost,base.group_user,1,1,1,1

@@ -1,0 +1,186 @@
+<odoo>
+    <data>
+
+        <record id="res_partner_inherit_pricepaper" model="ir.ui.view">
+            <field name="name">res.partner.pricepaper</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form" />
+            <field name="arch" type="xml">
+                <button name="toggle_active" position="after">
+                    <button class="oe_stat_button" type="action" name="%(price_paper.act_res_partner_2_sale_order_line)d"
+                        attrs="{'invisible': [('customer', '=', False)]}" string=" Purchase History" icon="fa-history"/>
+                        <button class="oe_stat_button" type="action" name="%(price_paper.act_res_partner_2_product_notes)d"
+                            attrs="{'invisible': [('customer', '=', False)]}" string=" Product Notes" icon="fa-sticky-note"/>
+                </button>
+                <xpath expr="//notebook/page[@name='sales_purchases']/group/group/field[@name='customer']" position="after">
+                    <field name="customer_code" />
+                    <field name="shipping_easiness" />
+                    <field name="destination_code" />
+                </xpath>
+                <field name='vat' position='attributes'>
+                    <attribute name="groups">account.group_account_user</attribute>
+                </field>
+                <xpath expr="//notebook/page[@name='sales_purchases']/group[1]" position="inside">
+                    <group string="Pricelists">
+                        <field name='customer_pricelist_ids' attrs="{'invisible':[('customer', '=', False)]}" nolabel="1">
+                            <tree string="Customer Pricelist priority" editable="bottom">
+                                <field name='sequence' widget="handle"/>
+                                <field name='pricelist_id' nolabel="1" required="1"/>
+                            </tree>
+                        </field>
+                    </group>
+                </xpath>
+                <xpath expr="//notebook/page[@name='sales_purchases']/group[1]" position="after">
+                    <group string="Shipping Days">
+                        <field name="delivery_day_mon"/>
+                        <field name="delivery_day_tue"/>
+                        <field name="delivery_day_wed"/>
+                        <field name="delivery_day_thu"/>
+                        <field name="delivery_day_fri"/>
+                        <field name="delivery_day_sat"/>
+                        <field name="delivery_day_sun"/>
+                    </group>
+                </xpath>
+                <xpath expr="//div[hasclass('oe_title')]" position="after">
+                    <group>
+                        <group>
+                            <field name="corp_name"/>
+                        </group>
+                        <group>
+                        </group>
+                    </group>
+                </xpath>
+
+                <xpath expr="//field[@name='vat']" position="replace">
+                    <field name="vat" attrs="{'readonly':True}"/>
+                </xpath>
+
+            </field>
+        </record>
+
+
+
+
+        <record id="res_partner_pricepaper_vat_readonly" model="ir.ui.view">
+            <field name="name">res.partner.pricepaper.vat.readonly</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="price_paper.res_partner_inherit_pricepaper"/>
+            <field name="groups_id" eval="[(6, 0, [ref('account.group_account_user')])]"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='vat']" position="attributes">
+                    <attribute name="readonly">False</attribute>
+                </xpath>
+            </field>
+        </record>
+
+
+        <record id="res_partner_pricelist_inherit_pricepaper" model="ir.ui.view">
+            <field name="name">res.partner.acc.pricepaper</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="product.view_partner_property_form" />
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='property_product_pricelist']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="account.view_partner_property_form" model="ir.ui.view">
+            <field name="groups_id" eval="[(4, ref('account.group_account_invoice')), (4, ref('sales_team.group_sale_salesman'))]"/>
+        </record>
+
+
+
+        <record id="res_partner_account_inherit_pricepaper" model="ir.ui.view">
+            <field name="name">res.partner.acc.pricepaper</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="account.view_partner_property_form" />
+            <field name="arch" type="xml">
+                <field name="trust" position="after" >
+                    <field name="credit" />
+                    <field name="credit_limit" readonly="1"/>
+                </field>
+                <field name="property_supplier_payment_term_id" position="after" >
+                    <field name="debit" />
+                </field>
+                <field name="trust" position="attributes">
+                    <attribute name="readonly">1</attribute>
+                </field>
+                <field name="property_account_position_id" position="attributes">
+                    <attribute name="readonly">1</attribute>
+                </field>
+                <field name="property_account_receivable_id" position="attributes">
+                    <attribute name="readonly">1</attribute>
+                </field>
+                <field name="property_account_payable_id" position="attributes">
+                    <attribute name="readonly">1</attribute>
+                </field>
+
+                <xpath expr="//group[@name='accounting_entries']" position="attributes">
+                    <attribute name="groups"></attribute>
+                </xpath>
+
+            </field>
+        </record>
+
+
+
+
+
+
+        <record id="res_partner_pricepaper_payment_term_readonly" model="ir.ui.view">
+            <field name="name">res.partner.pricepaper.payment.term.readonly</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="price_paper.res_partner_account_inherit_pricepaper"/>
+            <field name="groups_id" eval="[(6, 0, [ref('account.group_account_user')])]"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='property_payment_term_id']" position="attributes">
+                    <attribute name="readonly">0</attribute>
+                </xpath>
+                <xpath expr="//field[@name='property_supplier_payment_term_id']" position="attributes">
+                    <attribute name="readonly">0</attribute>
+                </xpath>
+
+                <xpath expr="//field[@name='trust']" position="attributes">
+                    <attribute name="readonly">0</attribute>
+                </xpath>
+                <xpath expr="//field[@name='property_account_position_id']" position="attributes">
+                    <attribute name="readonly">0</attribute>
+                </xpath>
+                <xpath expr="//field[@name='property_account_receivable_id']" position="attributes">
+                    <attribute name="readonly">0</attribute>
+                </xpath>
+                <xpath expr="//field[@name='property_account_payable_id']" position="attributes">
+                    <attribute name="readonly">0</attribute>
+                </xpath>
+                <xpath expr="//field[@name='credit_limit']" position="attributes">
+                    <attribute name="readonly">0</attribute>
+                </xpath>
+            </field>
+        </record>
+
+
+        <record id="res_partner_pricepaper_search" model="ir.ui.view">
+            <field name="name">res.partner.pricepaper.search</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_res_partner_filter"/>
+            <field name="arch" type="xml">
+                <field name="name" position="after">
+                    <field name="customer_code" string="Partner Code"/>
+                </field>
+            </field>
+        </record>
+
+
+        <record id="view_partner_category_form_inherit_pricepaper" model="ir.ui.view">
+            <field name="name">res.partner.category.pricepaper</field>
+            <field name="model">res.partner.category</field>
+            <field name="inherit_id" ref="base.view_partner_category_form" />
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='parent_id']" position="after">
+                    <field name="code" />
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

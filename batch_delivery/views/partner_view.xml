@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="partner_form_inherit_batch_delivery" model="ir.ui.view">
+            <field name="name">partner form inherit</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+                <field name='category_id' position="after">
+                    <field name="delivery_notes"/>
+                    <field name="is_driver"/>
+                    <field name="bill_with_goods"/>
+                </field>
+            </field>
+        </record>
+
+
+        <record id="partner_form_inherit_geolocalize" model="ir.ui.view">
+            <field name="name">partner form inherit geolocalize</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base_geolocalize.view_crm_partner_geo_form"/>
+            <field name="arch" type="xml">
+                <button name="geo_localize" position="after">
+                    <button string="VIEW LOCATION" name="view_partner_location" colspan="2" icon="fa-check" type="object" class="oe_inline"/>
+                </button>
+            </field>
+        </record>
+    </data>
+</odoo>

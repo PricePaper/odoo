@@ -1,0 +1,149 @@
+<odoo>
+    <data>
+
+        <record id="truck_driver_tree" model="ir.ui.view">
+            <field name="name">Truck Driver Tree</field>
+            <field name="model">res.partner</field>
+            <field name="arch" type="xml">
+                <tree string="Truck Driver" >
+                    <field name="display_name" />
+                    <field name="phone" />
+                    <field name="email" />
+                    <field name="credit" />
+                </tree>
+            </field>
+        </record>
+
+        <record id="truck_driver_form" model="ir.ui.view">
+            <field name="name">Truck Driver Tree</field>
+            <field name="model">res.partner</field>
+            <field name="arch" type="xml">
+                <form string="Truck Driver" >
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+
+
+                    <button type="object" class="oe_stat_button" id="partner_ledger_button" icon="fa-pencil-square-o" name="open_partner_ledger" context="{'default_partner_id': active_id}">
+                        <field name="partner_ledger_label"/>
+                    </button>
+
+                    <button type="object" class="oe_stat_button" name="open_action_followup" groups="account.group_account_user" icon="fa-list" attrs="{'invisible': [('credit', '=', 0)]}">
+                        <div class="o_field_widget o_stat_info">
+                            <span class="o_stat_value"><field name="credit" widget="monetary" options="{'currency_field': 'currency_id'}"/></span>
+                            <span class="o_stat_text">Due</span>
+                        </div>
+                    </button>
+
+
+
+
+                            <button name="toggle_active" type="object" class="oe_stat_button" icon="fa-archive">
+                                <field name="active" widget="boolean_button" options="{&quot;terminology&quot;: &quot;archive&quot;}"/>
+                            </button>
+                        </div>
+                        <field name="image" widget="image" class="oe_avatar" options="{&quot;preview_image&quot;: &quot;image_medium&quot;, &quot;size&quot;: [90, 90]}"/>
+                        <div class="oe_title">
+                            <field name="is_company" invisible="1"/>
+                            <field name="commercial_partner_id" invisible="1"/>
+                            <field name="company_type" widget="radio" class="oe_edit_only" options="{'horizontal': true}"/>
+                            <h1>
+                                <field name="name" default_focus="1" placeholder="Name" attrs="{'required' : [('type', '=', 'contact')]}"/>
+                            </h1>
+                            <div class="o_row">
+                                <field name="parent_id" placeholder="Company" domain="[('is_company', '=', True)]" context="{'default_is_company': True, 'default_supplier': supplier, 'default_customer': customer}" attrs="{'invisible': ['|', '&amp;', ('is_company','=', True),('parent_id', '=', False),('company_name', '!=', False),('company_name', '!=', '')]}"/>
+                                    <field name="company_name" attrs="{'invisible': ['|', '|', ('company_name', '=', False), ('company_name', '=', ''), ('is_company', '=', True)]}"/>
+                                    <button name="create_company" type="object" string="Create company" class="btn btn-sm oe_edit_only fa fa-external-link btn btn-link " attrs="{'invisible': ['|', '|', ('is_company','=', True), ('company_name', '=', ''), ('company_name', '=', False)]}"/>
+                            </div>
+                        </div>
+
+                        <group>
+                            <group>
+                                <field name="type" attrs="{'invisible': [('parent_id','=', False)]}" groups="base.group_no_one"/>
+                                <label for="street" string="Address"/>
+                                <div class="o_address_format">
+                                    <div class="oe_edit_only">
+                                        <button name="open_parent" type="object" string="(edit)" class="oe_link" attrs="{'invisible': ['|', ('parent_id', '=', False), ('type', '!=', 'contact')]}"/>
+                                    </div>
+                                    <field name="street" placeholder="Street..." class="o_address_street" attrs="{'readonly': [('type', '=', 'contact'),('parent_id', '!=', False)]}"/>
+                                    <field name="street2" placeholder="Street 2..." class="o_address_street" attrs="{'readonly': [('type', '=', 'contact'),('parent_id', '!=', False)]}"/>
+                                    <field name="city" placeholder="City" class="o_address_city" attrs="{'readonly': [('type', '=', 'contact'),('parent_id', '!=', False)]}"/>
+                                    <field name="state_id" class="o_address_state" placeholder="State" options="{&quot;no_open&quot;: True}" attrs="{'readonly': [('type', '=', 'contact'),('parent_id', '!=', False)]}" context="{'country_id': country_id, 'zip': zip}"/>
+                                    <field name="zip" placeholder="ZIP" class="o_address_zip" attrs="{'readonly': [('type', '=', 'contact'),('parent_id', '!=', False)]}"/>
+                                    <field name="country_id" placeholder="Country" class="o_address_country" options="{&quot;no_open&quot;: True, &quot;no_create&quot;: True}" attrs="{'readonly': [('type', '=', 'contact'),('parent_id', '!=', False)]}"/>
+                                </div>
+                                <field name="category_id" widget="many2many_tags" options="{'color_field': 'color', 'no_create_edit': True}" placeholder="Tags..."/>
+                                <field name="is_driver"/>
+                                <field name="customer" invisible="1"/>
+                                <field name="supplier" invisible="1"/>
+                            </group>
+                            <group>
+                                <field name="function" placeholder="e.g. Sales Director" attrs="{'invisible': [('is_company','=', True)]}"/>
+                                <field name="phone" widget="phone"/>
+                                <field name="mobile" widget="phone"/>
+                                <field name="user_ids" invisible="1"/>
+                                <field name="email" widget="email" context="{'gravatar_image': True}" attrs="{'required': [('user_ids','!=', [])]}"/>
+                                <field name="title" options="{&quot;no_open&quot;: True}" attrs="{'invisible': [('is_company', '=', True)]}"/>
+                                <field name="lang"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Invoicing" name="accounting" attrs="{'invisible': [('is_company','=',False),('parent_id','!=',False)]}">
+                                <group>
+                                    <group string="Sale" name="acc_sale">
+                                        <field name="property_payment_term_id" widget="selection"/>
+                                        <field name="trust" groups="base.group_no_one"/>
+                                        <field name="credit"/>
+                                        <field name="credit_limit"/>
+                                    </group>
+                                    <group string="Purchase" name="acc_purchase">
+                                        <field name="property_supplier_payment_term_id" widget="selection"/>
+                                        <field name="debit"/>
+                                        <field name="currency_id" invisible="1"/>
+                                    </group>
+                                    <group string="Fiscal Information" name="fiscal_information">
+                                        <field name="property_account_position_id" options="{'no_create': True, 'no_open': True}"/>
+                                    </group>
+                                    <group string="Accounting Entries" name="accounting_entries" groups="account.group_account_user">
+                                        <field name="property_account_receivable_id"/>
+                                        <field name="property_account_payable_id"/>
+                                    </group>
+                                </group>
+                            </page>
+                        </notebook>
+
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="truck_driver_action">
+            <field name="name">Truck Drivers</field>
+            <field name="res_model">res.partner</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('is_driver', '=', True)]</field>
+            <field name="context">{"default_is_driver":1, "default_customer":0, "default_supplier":0}</field>
+        </record>
+
+        <record model="ir.actions.act_window.view" id="action_truck_driver_tree">
+            <field name="sequence" eval="1"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="truck_driver_tree"/>
+            <field name="act_window_id" ref="truck_driver_action"/>
+        </record>
+
+        <record model="ir.actions.act_window.view" id="action_truck_driver_form">
+            <field name="sequence" eval="5"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="truck_driver_form"/>
+            <field name="act_window_id" ref="truck_driver_action"/>
+        </record>
+
+        <menuitem id="menu_truck_driver"
+            name="Drivers"
+            action="truck_driver_action"
+            parent="stock.menu_stock_warehouse_mgmt"
+            sequence="8"
+             />
+
+    </data>
+</odoo>

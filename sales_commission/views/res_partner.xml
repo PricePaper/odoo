@@ -1,0 +1,40 @@
+<odoo>
+    <data>
+        <record id="res_partner_inherit_salescommission" model="ir.ui.view">
+            <field name="name">res.partner.salecommission</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form" />
+            <field name="arch" type="xml">
+                <field name='category_id' position='after'>
+                    <field name='sales_person_ids' widget='many2many_tags' domain="[('is_sales_person', '=', True)]"/>
+                </field>
+                <xpath expr="//notebook/page[@name='sales_purchases']/group/group/field[@name='user_id']" position="attributes">
+                    <attribute name='invisible'>1</attribute>
+                </xpath>
+                <xpath expr="//notebook/page[@name='sales_purchases']" position="after">
+                    <page name='salescommission' string='Sale Commissions' groups="base.group_no_one" >
+                        <group>
+                            <group>
+                                <field name='last_so' invisible="1"/>
+                                <field name='last_so_date' invisible="1"/>
+                                <field name='is_sales_person' />
+                                <field name='sales_person_code' attrs="{'invisible':[('is_sales_person', '=', False)]}"/>
+                                <field name='weekly_draw'/>
+                                <field name="default_commission_rule" domain="[('sales_person_id', '=', id)]" attrs="{'invisible':[('is_sales_person', '=', False)]}" />
+                            </group>
+                            <group string="Commission Percentage" attrs="{'invisible':[('is_sales_person', '=', True)]}">
+                                <field name='commission_percentage_ids' attrs="{'invisible':[('is_sales_person', '=', True)]}" nolabel="1" >
+                                    <tree string="Sales Person" editable="bottom">
+                                        <field name='sale_person_id' domain="[('is_sales_person', '=', True)]" />
+                                        <field name='rule_id' domain="[('sales_person_id', '=', sale_person_id)]"/>
+                                    </tree>
+                                </field>
+                            </group>
+                        </group>
+                    </page>
+                </xpath>
+
+            </field>
+        </record>
+    </data>
+</odoo>

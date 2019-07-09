@@ -1,0 +1,110 @@
+<odoo>
+    <data>
+
+        <record id="helpdesk_team_inherit_special_item" model="ir.ui.view">
+            <field name="name">helpdesk.team</field>
+            <field name="model">helpdesk.team</field>
+            <field name="inherit_id" ref="helpdesk.helpdesk_team_view_form"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//field[@name='description']" position="after">
+                    <group>
+                        <field name="is_special_order_team"/>
+                    </group>
+                </xpath>
+
+            </field>
+        </record>
+
+
+
+
+        <record id="helpdesk_ticket_inherit_special_item" model="ir.ui.view">
+            <field name="name">helpdesk.ticket.inherit.special.order</field>
+            <field name="model">helpdesk.ticket</field>
+            <field name="inherit_id" ref="helpdesk.helpdesk_ticket_view_form"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//field[@name='user_id']" position="before">
+                    <field name="create_uid" readonly="1" attrs="{'invisible':[('is_special_order_ticket', '=', False)]}"/>
+                    <field name="stage_code"/>
+                </xpath>
+
+                <button name="assign_ticket_to_self" position="attributes">
+                    <attribute name='attrs'>{'invisible':[('stage_code', 'in', ['special_item_requests_stage_new', 'special_item_requests_stage_greg', 'special_item_requests_stage_available', 'special_item_requests_stage_suggest', 'special_item_requests_stage_special', 'special_item_requests_stage_accept_suggested', 'special_item_requests_stage_accept_alternative', 'special_item_requests_stage_reject', 'special_item_requests_stage_close'])]}</attribute>
+                </button>
+
+                <button name="assign_ticket_to_self" position="before">
+
+                    <button name="assign_to_greg" string="Assign to Greg" type="object" attrs="{'invisible':[('stage_code', '!=', 'special_item_requests_stage_new')]}" class="oe_highlight"/>
+
+                    <button name="mark_as_available" string="Mark As Available" type="object" attrs="{'invisible':[('stage_code', '!=', 'special_item_requests_stage_greg')]}" class="oe_highlight"/>
+
+                    <button name="suggest_equivalent" string="Suggest Equivalent" type="object" attrs="{'invisible':[('stage_code', '!=', 'special_item_requests_stage_greg')]}" class="oe_highlight"/>
+
+                    <button name="special_request_to_purchasing" string="Request To Purchasing" type="object" attrs="{'invisible':[('stage_code', 'not in', ('special_item_requests_stage_greg', 'special_item_requests_stage_reject'))]}" class="oe_highlight"/>
+
+                    <button name="accept_suggested_available" string="Accept Item" type="object" attrs="{'invisible':[('stage_code', '!=', 'special_item_requests_stage_available')]}" class="oe_highlight"/>
+
+                    <button name="accept_suggested_alternative" string="Accept Alternative" type="object" attrs="{'invisible':[('stage_code', '!=', 'special_item_requests_stage_suggest')]}" class="oe_highlight"/>
+
+                    <button name="reject_suggestion" string="Reject Alternative" type="object" attrs="{'invisible':[('stage_code', '!=', 'special_item_requests_stage_suggest')]}" class="oe_highlight"/>
+
+                    <button name="close_special_order_ticket" string="Close Order" type="object" attrs="{'invisible':[('stage_code', 'not in', ('special_item_requests_stage_accept_suggested', 'special_item_requests_stage_accept_alternative'))]}" class="oe_highlight"/>
+
+
+                </button>
+
+
+
+
+
+
+                <xpath expr="//field[@name='description']" position="after">
+                    <field name="is_special_order_ticket" invisible="1"/>
+                    <field name="stage_code" invisible="1"/>
+                </xpath>
+
+                <xpath expr="//field[@name='description']" position="before">
+                    <notebook>
+                        <page string="Special Order Information" attrs="{'invisible':[('is_special_order_ticket', '=', False)]}">
+                            <group col="4">
+                                <field name="product_name"/>
+                                <field name="manufacturer"/>
+                                <field name="item_description"/>
+                                <field name="standard_price"/>
+                                <field name="lead_time"/>
+                                <field name="have_picture"/>
+                                <field name="file_name" invisible="1"/>
+                                <field name="upload_file" filename="file_name" attrs="{'invisible':[('have_picture', '=', False)]}"/>
+                                <field name="is_pricing_request"/>
+                                <field name="is_one_time" attrs="{'invisible':[('is_pricing_request', '=', True)]}"/>
+                                <field name="usage_per_month" attrs="{'invisible':['|', ('is_pricing_request', '=', True), ('is_one_time', '=', True)]}"/>
+                            </group>
+                        </page>
+
+                        <page string="Available/Suggested Items" attrs="{'invisible':[('is_special_order_ticket', '=', False)]}">
+                            <group>
+                                <field name="response" readonly="1"/>
+                            </group>
+                            <field name="item_line_ids">
+                                <tree string="Available/Suggested items" editable="bottom">
+                                    <field name="product_id" required="1"/>
+                                    <field name="description"/>
+                                </tree>
+                            </field>
+                        </page>
+
+                    </notebook>
+                </xpath>
+
+            </field>
+        </record>
+
+
+
+
+    </data>
+</odoo>
+
+

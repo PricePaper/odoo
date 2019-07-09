@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="report_invoice_salesperson" inherit_id="account.report_invoice_document">
+        <xpath expr="//div[@t-if='o.origin']" position="after">
+            <div class="col-xs-2" t-if="o.sales_person_ids">
+                <strong>Salespersons:</strong>
+                <t t-foreach="o.sales_person_ids" t-as="s">
+                    <p t-esc="s.name"/>
+                </t>
+            </div>
+        </xpath>
+    </template>
+</odoo>

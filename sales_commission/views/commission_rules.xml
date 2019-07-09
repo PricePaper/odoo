@@ -1,0 +1,64 @@
+<odoo>
+    <data>
+
+        <record id="view_commission_rule_tree" model="ir.ui.view">
+            <field name="name">commission.rules.tree</field>
+            <field name="model">commission.rules</field>
+            <field name="arch" type="xml">
+                <tree string="Sales Commission Rules">
+                    <field name="sales_person_id" />
+                    <field name="based_on" />
+                    <field name="percentage" />
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_commission_rule_search" model="ir.ui.view">
+            <field name="name">commission.rules.search</field>
+            <field name="model">commission.rules</field>
+            <field name="arch" type="xml">
+                <search string="Sales Commission Rules">
+                    <field name="sales_person_id" string="Salesperson" />
+                    <field name="based_on" string="Based On" />
+                    <group expand="0" string="Group By">
+                        <filter string="Sales Person" name="groupby_sales_person" domain="[]" context="{'group_by':'sales_person_id'}"/>
+                        <filter string="Customer" name="groupby_based_on" domain="[]" context="{'group_by':'based_on'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="view_commission_rule_form" model="ir.ui.view">
+            <field name="name">commission.rules.form</field>
+            <field name="model">commission.rules</field>
+            <field name="arch" type="xml">
+                <form string="Sales Commission Rule" >
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="sales_person_id" required='1' domain="[('is_sales_person', '=', 'True')]"/>
+                                <field name="based_on" />
+                            </group>
+                            <group>
+                                <field name="percentage" required='1'/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_sales_commission" model="ir.actions.act_window">
+            <field name="name">Sales Commission</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">commission.rules</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+              <p>
+                Create New Commission Rule.
+              </p>
+            </field>
+        </record>
+    </data>
+</odoo>

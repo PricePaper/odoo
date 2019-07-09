@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="upload_pricelist_csv" model="ir.ui.view">
+            <field name="name">upload.customer.pricelist</field>
+            <field name="model">upload.pricelist.csv.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Upload Pricelist">
+                    <sheet>
+                        <group>
+                            <field name="file_name" invisible="1"/>
+                            <field name="upload_file" filename="file_name"/>
+                        </group>
+                        <group string="Customer Product Price">
+                            <field name="customer_product_ids" nolabel="1" widget="one2many_list">
+                                <tree editable="bottom">
+                                    <field name="product_id" required="1"/>
+                                    <field name="partner_id" invisible="context.get('is_competitor')"/>
+                                    <field name="price"/>
+                                </tree>
+                            </field>
+                        </group>
+                    </sheet>
+                    <footer>
+                        <button string="Submit" type="object" name="import_pricelists"/>
+                        or
+                        <button string="Cancel" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+
+        <record id="action_upload_pricelist_wizard" model="ir.actions.act_window">
+            <field name="name">Upload PricelIst</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">upload.pricelist.csv.wizard</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+    </data>
+</odoo>

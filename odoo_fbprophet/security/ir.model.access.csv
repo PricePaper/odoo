@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_yearly_holidays_tech_user,access_yearly_holidays_tech_user,model_yearly_holidays,base.group_no_one,1,1,1,1
+access_holiday_day_tech_user,access_holiday_day_tech_user,model_holiday_day,base.group_no_one,1,1,1,1
+acess_fbprophet_config_user,access_fbprophet_tech_user,model_fbprophet_config,base.group_no_one,1,1,1,1
+acess_changepoint_dates_user,access_changepoint_dates_tech_user,model_changepoint_dates,base.group_no_one,1,1,1,1

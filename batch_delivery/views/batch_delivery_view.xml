@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="batch_picking_form_inherrit" model="ir.ui.view">
+            <field name="name">stock.picking.batch.form.inherrit</field>
+            <field name="model">stock.picking.batch</field>
+            <field name="inherit_id" ref="stock_picking_batch.stock_picking_batch_form"/>
+            <field name="arch" type="xml">
+
+                <button name="print_picking" position="before">
+                    <button name="print_master_pickticket" string="Print Master PickTicket" type="object" class="oe_highlight"/>
+                </button>
+
+                <button name="print_picking" position="after">
+                    <button name="print_product_labels" string="Print Product Labels" type="object" class="oe_highlight"/>
+                    <button name="print_delivery_slip" string="Print Delivery Slip" type="object" class="oe_highlight"/>
+                    <button name="print_driver_spreadsheet" string="Print Drivers Document" type="object" class="oe_highlight"/>
+                    <button name="register_payments" confirm="All payments will be posted and this action can't be undone are you sure you want to proceed?" string="Register Payments" type="object" class="oe_highlight" attrs="{'invisible': ['|', ('state', 'not in', ['done']), ('is_posted', '=', True)]}"/>
+                </button>
+
+                <button name="print_picking" position="attributes">
+                    <attribute name="string">Print Pick Tickets</attribute>
+                </button>
+
+                <xpath expr="//field[@name='picking_ids']/tree//button[@name='action_assign']" position="attributes">
+                    <attribute name="attrs">{'invisible': [('state', 'in', ('delivered', 'cancel', 'confirmed', 'assigned'))]}</attribute>
+                </xpath>
+
+                <xpath expr="//field[@name='picking_ids']/tree//field[@name='name']" position="after">
+                    <field name="partner_id"/>
+                    <field name="city"/>
+
+                </xpath>
+
+                <field name="user_id" position="after">
+                    <group>
+                        <field name="route_id"/>
+                        <field name="truck_driver_id" domain="[('is_driver', '=', True)]" attrs="{'readonly':[('state', 'in', ['done', 'cancel'])]}"/>
+                    </group>
+                    <group>
+                        <field name="date"/>
+                        <field name="total_amount" groups="sales_team.group_sale_manager"/>
+                        <field name="total_profit" groups="sales_team.group_sale_manager"/>
+                        <field name="profit_percentage" groups="sales_team.group_sale_manager"/>
+                    </group>
+                </field>
+                <field name="user_id" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+                <xpath expr="//div[1]" position="before">
+                    <div class="oe_button_box" name="button_box">
+                        <button class="oe_stat_button"
+                            name="view_payments"
+                            icon="fa-pencil-square-o"
+                            attrs="{'invisible': [('payment_ids', '=', [])]}"
+                            type="object"
+                            string="Customer Payments"/>
+                        <button class="oe_stat_button"
+                            name="view_location_map"
+                            icon="fa-globe"
+                            type="object"
+                            string="View Route Map"/>
+                    </div>
+                </xpath>
+
+
+
+                <xpath expr="//field[@name='picking_ids']/tree/button[@name='action_assign']" position="attributes">
+                    <attribute name="attrs">{'invisible': [('state', 'in', ('done', 'cancel', 'confirmed', 'assigned', 'delivered'))]}</attribute>
+                </xpath>
+                <xpath expr="//field[@name='picking_ids']/tree/button[@name='action_cancel']" position="attributes">
+                    <attribute name="attrs">{'invisible': [('state', 'in', ('done', 'cancel', 'delivered'))]}</attribute>
+                </xpath>
+
+
+
+                <field name="picking_ids" position="after">
+                    <div attrs="{'invisible':[('state', '!=', 'done')]}">
+                        <separator string="Cash Collected Breakup"/>
+                        <group col="4">
+                            <field name="actual_returned"  attrs="{'readonly':[('is_posted', '=', True)]}"/>
+                            <field name="pending_amount"/>
+                        </group>
+
+                        <field name="cash_collected_lines" attrs="{'readonly':[('is_posted', '=', True)]}">
+                            <tree editable="bottom">
+                                <field name="partner_id" domain="[('customer', '=', True)]"/>
+                                <field name="amount"/>
+                            </tree>
+                        </field>
+                    </div>
+
+                    <field name="is_posted" invisible="1"/>
+                    <field name="payment_ids" invisible="1"/>
+
+                </field>
+
+            </field>
+        </record>
+
+
+
+        <record id="batch_picking_tree_inherrit" model="ir.ui.view">
+            <field name="name">stock.picking.batch.tree.inherrit</field>
+            <field name="model">stock.picking.batch</field>
+            <field name="inherit_id" ref="stock_picking_batch.stock_picking_batch_tree"/>
+            <field name="arch" type="xml">
+                <field name="name" position="after">
+                    <field name="date"/>
+                    <field name="route_id"/>
+                    <field name="truck_driver_id"/>
+                    <field name="total_amount" groups="sales_team.group_sale_manager"/>
+                    <field name="total_profit" groups="sales_team.group_sale_manager"/>
+                    <field name="profit_percentage" groups="sales_team.group_sale_manager"/>
+                </field>
+                <field name="user_id" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+            </field>
+        </record>
+
+        <record id="batch_picking_search_inherrit" model="ir.ui.view">
+            <field name="name">stock.picking.batch.search.inherrit</field>
+            <field name="model">stock.picking.batch</field>
+            <field name="inherit_id" ref="stock_picking_batch.stock_picking_batch_filter"/>
+            <field name="arch" type="xml">
+
+                <filter name="in_progress" position="attributes">
+                    <attribute name="domain">[('state','in', ['draft', 'in_progress'])]</attribute>
+                </filter>
+            </field>
+        </record>
+
+
+
+
+
+
+
+
+
+    </data>
+</odoo>

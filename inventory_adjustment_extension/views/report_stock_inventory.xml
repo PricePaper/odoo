@@ -1,0 +1,47 @@
+<odoo>
+    <data>
+        <template id="report_inventory_inherited_price_paper" inherit_id="stock.report_inventory">
+
+            <xpath expr="//div[hasclass('page')]/table[2]" position="replace">
+                <t t-set="products" t-value="o.line_ids.mapped('product_id')"/>
+                <table class="table table-condensed">
+                    <thead>
+                        <tr>
+                            <th><strong>Product</strong></th>
+                            <th><strong>Location</strong></th>
+                            <th groups="stock.group_production_lot"><strong>Production Lot</strong></th>
+                            <th groups="stock.group_tracking_lot"><strong>Package</strong></th>
+<!--                            <th><strong>Bin Location</strong></th>-->
+                            <th><strong>Theoretical Quantity</strong></th>
+                            <th class="text-right"><strong>Real Quantity</strong></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <t t-foreach="products" t-as="product">
+                            <!-- <tr t-if="o.include_transit">
+                                <td colspan="2"><strong t-esc="product.display_name"/></td>
+                                <td groups="stock.group_production_lot"></td>
+                                <td groups="stock.group_tracking_lot"></td>
+                                <td></td>
+                            </tr> -->
+                            <tr t-foreach="o.line_ids.filtered(lambda line: line.product_id.id == product.id)" t-as="line">
+                                <!-- <td t-if="o.include_transit"></td>
+                                <td t-if="not o.include_transit"><strong t-esc="product.display_name"/></td> -->
+                                <td><strong t-esc="product.display_name"/></td>
+                                <td><span t-field="line.location_id.display_name"/></td>
+                                <td groups="stock.group_production_lot"><span t-field="line.prod_lot_id"/></td>
+                                <td groups="stock.group_tracking_lot"><span t-field="line.package_id"/></td>
+<!--                                <td t-if="not line.location_id.is_transit_location"><span t-field="line.product_id.bucket_location"/></td>-->
+                                <td t-if="line.location_id.is_transit_location"></td>
+                                <td class="text-right"><span t-field="line.theoretical_qty"/> <span t-field="line.product_uom_id" groups="product.group_uom"/></td>
+                                <td class="text-right"><span t-field="line.product_qty"/> <span t-field="line.product_uom_id" groups="product.group_uom"/></td>
+                            </tr>
+                        </t>
+                    </tbody>
+                </table>
+            </xpath>
+
+
+        </template>
+    </data>
+</odoo>

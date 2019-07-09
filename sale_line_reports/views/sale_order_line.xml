@@ -1,0 +1,93 @@
+<odoo>
+    <data>
+        <record id="sale_line_reports_price_paper_tree" model="ir.ui.view">
+            <field name="name">sale.order.line.price.paper</field>
+            <field name="model">sale.order.line</field>
+            <field name="priority">1000</field>
+            <field name="arch" type="xml">
+                <tree string="Sales Order Lines" editable="top" create="0" edit="0">
+
+<!--                    <field name="customer_code" readonly="1" string="CUST.#"/>-->
+                    <field name="order_partner_id" readonly="1" string="CUSTOMER NAME"/>
+                    <field name="order_id" readonly="1" string="ORDER#"/>
+                    <field name="date_order" readonly="1" string="ORDER DATE"/>
+                    <field name="customer_po" readonly="1" string="CUST P/O #"/>
+                    <field name="product_id" readonly="1" string="ITEM #"/>
+<!--                    <field name="name" readonly="1" string="DESCRIPTION"/>-->
+                    <field name="is_taxed" readonly="1" string="TX"/>
+                    <field name="product_uom_qty" readonly="1" string="QTY"/>
+                    <field name="product_uom" readonly="1" string="PU" widget="selection"/>
+                    <field name="cost" readonly="1" string="COST"/>
+                    <field name="lst_price" readonly="1"/>
+                    <field name="price_unit" readonly="1" string="UNIT PRICE"/>
+<!--                    <field name="price_subtotal" readonly="1" string="EXTENSION"/>-->
+                    <field name="percent" string="PCT"/>
+                    <field name="remark"/>
+
+
+                </tree>
+            </field>
+        </record>
+
+
+
+        <record id="sales_order_line_filter_report" model="ir.ui.view">
+            <field name="name">sale.order.line.report</field>
+            <field name="model">sale.order.line</field>
+            <field name="arch" type="xml">
+                <search string="Search Sales Order">
+                    <filter name="to_invoice" string="To Invoice" domain="[('qty_to_invoice','!=', 0)]"  help="Sales Order Lines ready to be invoiced"/>
+                    <separator/>
+                    <filter string="My Sales Order Lines" domain="[('salesman_id','=',uid)]" help="Sales Order Lines related to a Sales Order of mine"/>
+                    <field name="order_id"/>
+                    <field name="order_partner_id" operator="child_of"/>
+                    <field name="product_id"/>
+                    <field name="salesman_id"/>
+                    <group expand="0" string="Group By">
+                        <filter string="Product" domain="[]" context="{'group_by':'product_id'}"/>
+                        <filter string="Order" domain="[]" context="{'group_by':'order_id'}"/>
+                        <filter string="Salesperson" domain="[]" context="{'group_by':'salesman_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+
+
+        <record id="action_sale_line_reports_price_paper" model="ir.actions.act_window">
+            <field name="name">Sales Order Lines</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">sale.order.line</field>
+            <field name="view_mode">tree</field>
+            <field name="search_view_id" ref="sales_order_line_filter_report"/>
+            <field name="context">{'search_default_to_invoice': True}</field>
+<!--            <field name="domain">[('state', 'not in', ('draft', 'sent', 'cancel'))]</field>-->
+        </record>
+
+
+        <record model="ir.actions.act_window.view" id="action_sale_line_reports_price_paper_tree">
+            <field name="sequence" eval="1"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="sale_line_reports_price_paper_tree"/>
+            <field name="act_window_id" ref="action_sale_line_reports_price_paper"/>
+        </record>
+
+
+
+
+
+
+
+        <menuitem id="menu_sales_lines_report"
+            name="Sale Order Lines"
+            action="action_sale_line_reports_price_paper"
+            parent="sale.sale_order_menu"
+            groups="sales_team.group_sale_salesman"
+            sequence= "1000"
+             />
+
+
+
+
+    </data>
+</odoo>

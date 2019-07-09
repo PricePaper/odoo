@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="crm_lead_inherit_crm_enhance" model="ir.ui.view">
+            <field name="name">crm.lead.crm.enhance</field>
+            <field name="model">crm.lead</field>
+            <field name="inherit_id" ref="crm.crm_case_form_view_leads" />
+            <field name="arch" type="xml">
+
+                <xpath expr="//notebook[1]" position="inside">
+                    <page string="Prospect Values" autofocus="autofocus">
+                        <field name="company_currency" invisible="1"/>
+                        <group col="4">
+                            <field name="rev_per_trans" widget="monetary" options="{'currency_field': 'company_currency'}"/>
+                            <field name="business_freq"/>
+<!--                            <field name="exp_mon_rev" widget="monetary" options="{'currency_field': 'company_currency'}"/>-->
+                        </group>
+                    </page>
+                </xpath>
+
+            </field>
+        </record>
+
+        <record id="crm_opportunity_inherit_crm_enhancement" model="ir.ui.view">
+            <field name="name">crm.opportunity.crm.enhance</field>
+            <field name="model">crm.lead</field>
+            <field name="inherit_id" ref="crm.crm_case_form_view_oppor" />
+            <field name="arch" type="xml">
+                <xpath expr="//notebook[1]" position="inside">
+                    <page string="Prospect Values" autofocus="autofocus">
+                        <group col="4">
+                            <field name="rev_per_trans" widget="monetary" options="{'currency_field': 'company_currency'}"/>
+                            <field name="business_freq"/>
+<!--                            <field name="exp_mon_rev" widget="monetary" options="{'currency_field': 'company_currency'}"/>-->
+                        </group>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+
+<!--        <record id="crm_lead_kanban_view_inherit" model="ir.ui.view">-->
+<!--            <field name="name">lead.kanban.inherit</field>-->
+<!--            <field name="model">crm.lead</field>-->
+<!--            <field name="inherit_id" ref="crm.crm_case_kanban_view_leads"/>-->
+<!--            <field name="arch" type="xml">-->
+<!--                <xpath expr="//div[hasclass('o_kanban_record_subtitle')]" position="inside">-->
+<!--                    <t t-if="record.exp_mon_rev.raw_value">-->
+<!--                        <p>Monthly Revenue Exp : <field name="exp_mon_rev" widget="monetary" options="{'currency_field': 'company_currency'}"/></p>-->
+<!--                    </t>-->
+<!--                </xpath>-->
+<!--            </field>-->
+<!--        </record>-->
+
+    </data>
+</odoo>

@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_truck_route_user,access_truck_route_user,model_truck_route,base.group_user,1,1,1,1
+access_cash_collected_lines_user,cash_collected_lines_user,model_cash_collected_lines,base.group_user,1,1,1,1

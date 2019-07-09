@@ -1,0 +1,28 @@
+<odoo>
+    <data>
+
+        <record id="helpdesk_team_inherit" model="ir.ui.view">
+            <field name="name">helpdesk.team</field>
+            <field name="model">helpdesk.team</field>
+            <field name="inherit_id" ref="helpdesk.helpdesk_team_view_form" />
+            <field name="arch" type="xml">
+
+                <xpath expr="//field[@name='description']" position="after">
+
+
+                            <group>
+                                <field name="is_purchase_team"/>
+                            </group>
+
+
+
+                </xpath>
+            </field>
+        </record>
+
+
+
+    </data>
+</odoo>
+
+

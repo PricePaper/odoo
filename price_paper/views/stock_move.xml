@@ -1,0 +1,24 @@
+<odoo>
+    <data>
+        <record id="view_move_line_tree_inherit_pricepaper" model="ir.ui.view">
+            <field name="name">stock.move.line.tree.pricepaper</field>
+            <field name="model">stock.move.line</field>
+            <field name="inherit_id" ref="stock.view_move_line_tree" />
+            <field name="arch" type="xml">
+                <field name="date" position="after" >
+                    <field name="picking_partner_id" />
+                </field>
+            </field>
+        </record>
+        <record id="view_move_line_form_inherit_pricepaper" model="ir.ui.view">
+            <field name="name">stock.move.line.pricepaper</field>
+            <field name="model">stock.move.line</field>
+            <field name="inherit_id" ref="stock.view_move_line_form" />
+            <field name="arch" type="xml">
+                <field name="date" position="after" >
+                    <field name="picking_partner_id" />
+                </field>
+            </field>
+        </record>
+    </data>
+</odoo>

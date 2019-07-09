@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="product_labels_template">
+            <t t-call="web.basic_layout">
+                <div class="page">
+                    <div class="col-xs-4" style="padding:0;">
+                        <t t-foreach="range(0,int(line.product_uom_qty))" t-as="int(count)">
+                            <table style="width:384px;height:192px;border:2px solid black;" class="table">
+                                <tbody>
+                                    <tr style="border-bottom:hidden;height:30%;">
+                                        <td>
+                                            <t t-if="line.picking_id.partner_id.name">
+                                                <strong t-field="line.picking_id.partner_id.name" style="float:left;width:70%;font-size:20px;"/>
+                                                <strong t-field="line.picking_id.scheduled_date" style="float:right;width:30%;font-size:20px;"/>
+                                            </t>
+                                        </td>
+                                    </tr>
+                                    <t t-set="barcode" t-value="'%s-%s'%(line.sale_line_id.id, line.product_uom_qty)"/>
+                                    <tr style="border-top:hidden;border-bottom:hidden;height:40%;">
+                                        <td style="text-align:center; vertical-align:middle;" class="col-xs-5">
+                                            <img
+                                                 t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', barcode, 600, 150)"
+                                                 style="width:100%;height:20%;"/>
+                                            <span t-esc="barcode"/>
+                                        </td>
+                                    </tr>
+                                    <tr style="border-top:hidden;height:30%;">
+                                        <td>
+                                            <strong style="display:block;float:left;width:70%;font-size:15px;">
+                                                <t t-if="line.product_id.default_code">
+                                                    [<span t-field="line.product_id.default_code"/>]
+                                                </t>
+                                                <span t-field="line.product_id.name"/>
+                                                (<span t-field="line.product_uom.name"/>)
+                                            </strong>
+                                            <strong t-field="line.sale_line_id.order_id.name" style="float:right;width:30%;font-size:20px;"/>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </t>
+                    </div>
+                </div>
+            </t>
+        </template>
+
+        <template id="report_product_label">
+            <t t-set="location_list" t-value="get_product_labels(docs)"/>
+            <t t-foreach="location_list" t-as="location">
+                <t t-foreach="location[1]" t-as="line">
+                    <t t-call="batch_delivery.product_labels_template"/>
+                </t>
+            </t>
+        </template>
+
+        <template id="report_batch_product_label">
+            <t t-set="location_list" t-value="get_product_labels(docs)"/>
+            <t t-foreach="location_list" t-as="location">
+                <t t-foreach="location[1]" t-as="line">
+                    <t t-call="batch_delivery.product_labels_template"/>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>

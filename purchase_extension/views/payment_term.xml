@@ -1,0 +1,18 @@
+<odoo>
+    <data>
+        <record id="account_paymnet_term_inherit_price_paper" model="ir.ui.view">
+            <field name="name">account payment term</field>
+            <field name="model">account.payment.term</field>
+            <field name="inherit_id" ref="account.view_payment_term_form"/>
+            <field name="arch" type="xml">
+                <field name='active' position="after">
+                    <field name="code"/>
+                    <field name="order_type"/>
+                    <field name="due_days" attrs="{'invisible':[('order_type', '!=', 'purchase')]}"/>
+                    <field name="discount_per" attrs="{'invisible':[('order_type', '!=', 'purchase')]}"/>
+                </field>
+            </field>
+        </record>
+
+    </data>
+</odoo>

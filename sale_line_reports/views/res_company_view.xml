@@ -1,0 +1,21 @@
+<odoo>
+    <data>
+
+
+
+
+        <record id="company_sale_line_report_inherit" model="ir.ui.view">
+            <field name="name">company.view.saleline.report</field>
+            <field name="model">res.company</field>
+            <field name="inherit_id" ref="base.view_company_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='report_footer']" position="after">
+                    <field name="company_margin"/>
+                </xpath>
+            </field>
+        </record>
+
+
+
+    </data>
+</odoo>

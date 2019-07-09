@@ -1,0 +1,18 @@
+<odoo>
+    <data>
+        <record id="inherit_sale_order_form_view_perchase_ext" model="ir.ui.view">
+            <field name="name">inherited.sale.order.form.view</field>
+            <field name="model">sale.order</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="sale.view_order_form" />
+            <field name="arch" type="xml">
+                <field name='payment_term_id' position='attributes'>
+                    <attribute name='domain'>[('order_type', '=', 'sale')]</attribute>
+                </field>
+                <xpath expr="//field[@name='product_onhand']" position="after">
+                    <field name="product_arrival_date" readonly='1'/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

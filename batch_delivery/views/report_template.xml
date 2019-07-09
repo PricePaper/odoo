@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <data>
+
+      <record id="print_product_label_paperformat" model="report.paperformat">
+            <field name="name">Product label Report Paper Format</field>
+            <field name="format">custom</field>
+            <field name="page_height">51</field>
+            <field name="page_width">102</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">0</field>
+            <field name="margin_bottom">0</field>
+            <field name="margin_left">5</field>
+            <field name="margin_right">0</field>
+            <field name="header_line" eval="False" />
+            <field name="header_spacing">0</field>
+            <field name="dpi">90</field>
+        </record>
+
+        <record id="paperformat_driver_batch_delivery_slip" model="report.paperformat">
+            <field name="name">Driver Batch delivery Slip</field>
+            <field name="default" eval="False" />
+            <field name="format">Letter</field>
+            <field name="page_height">0</field>
+            <field name="page_width">0</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">10</field>
+            <field name="margin_bottom">0</field>
+            <field name="margin_left">10</field>
+            <field name="margin_right">0</field>
+            <field name="header_line" eval="False" />
+            <field name="header_spacing">0</field>
+            <field name="dpi">90</field>
+        </record>
+
+        <report
+            id="batch_delivery.report_master_pick_ticket"
+            string="Master Pick Ticket"
+            model="stock.picking.batch"
+            report_type="qweb-pdf"
+            file="batch_delivery.master_pick_ticket_report"
+            name="batch_delivery.master_pick_ticket_report"
+        />
+
+        <report
+            string="Delivery Slip"
+            id="batch_picking_deliveryslip_report"
+            model="stock.picking"
+            report_type="qweb-pdf"
+            file="batch_delivery.report_batch_delivery_slip"
+            name="batch_delivery.report_batch_picking_delivery_slip"
+            print_report_name="'Delivery Slip - %s - %s' % (object.partner_id.name or '', object.name)"
+        />
+
+        <report
+            string="Delivery Slip"
+            id="batch_deliveryslip_report"
+            model="stock.picking.batch"
+            report_type="qweb-pdf"
+            file="batch_delivery.report_batch_delivery_slip"
+            name="batch_delivery.report_batch_delivery_slip"
+            print_report_name="'Delivery Slip - %s' % (object.name)"
+        />
+
+        <report
+            string="Delivery Slip"
+            id="stock.action_report_delivery"
+            model="stock.picking"
+            report_type="qweb-pdf"
+            name="stock.report_deliveryslip"
+            file="stock.report_deliveryslip"
+            print_report_name="'Delivery Slip - %s - %s' % (object.partner_id.name or '', object.name)"
+            menu="False"
+        />
+
+        <report
+            string="Drivers Delivery Report"
+            id="batch_driver_report"
+            model="stock.picking.batch"
+            report_type="qweb-pdf"
+            file="batch_delivery.report_batch_driver"
+            name="batch_delivery.report_batch_driver"
+            paperformat="paperformat_driver_batch_delivery_slip"
+            print_report_name="'%s - %s' % (object.truck_driver_id.name or '', object.name)"
+        />
+
+        <report
+            string="Product Labels"
+            id="product_label_report"
+            model="stock.picking"
+            report_type="qweb-pdf"
+            file="batch_delivery.report_product_label"
+            name="batch_delivery.report_product_label"
+            paperformat="print_product_label_paperformat"
+            print_report_name="'Product labels - %s' % (object.name or '')"
+        />
+
+        <report
+            string="Product Labels"
+            id="batch_product_label_report"
+            model="stock.picking.batch"
+            report_type="qweb-pdf"
+            file="batch_delivery.report_product_label"
+            name="batch_delivery.report_batch_product_label"
+            paperformat="print_product_label_paperformat"
+            print_report_name="'Product labels - %s' % (object.name or '')"
+        />
+
+  </data>
+</odoo>

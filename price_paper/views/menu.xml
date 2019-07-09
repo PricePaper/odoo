@@ -1,0 +1,55 @@
+<odoo>
+    <data>
+        <menuitem id="inactive_inventory_product_report"
+            name="Inactive Product Report"
+            action="action_inactive_product_report"
+            parent="stock.menu_warehouse_report"
+            sequence="120" />
+        <menuitem id="inactive_inventory_customer_report"
+            name="Inactive Customer Report"
+            action="action_inactive_customer_report"
+            parent="stock.menu_warehouse_report"
+            sequence="121" />
+        <menuitem id="menu_orders_credit_limit_exceeded"
+            name="Credit limit exceeded orders"
+            action="action_orders_credit_limit_exceeded"
+            parent="sale.sale_order_menu"
+            groups="price_paper.group_allow_more_than_credit_limit"
+            sequence="12" />
+        <menuitem id="menu_customer_product_price"
+            name="Customer Product Price"
+            action="action_customer_product_price"
+            parent="sale.product_menu_catalog"
+            groups="sales_team.group_sale_manager" />
+        <menuitem id="menu_cost_change"
+            name="Cost Change Cron"
+            action="action_cost_change"
+            parent="purchase.menu_procurement_management"
+            groups="purchase.group_purchase_manager"
+            />
+
+        <record model="ir.ui.menu" id="sale.menu_product_template_action">
+            <field name="action" eval="False" />
+        </record>
+        <record model="ir.ui.menu" id="sale.menu_products">
+            <field name="name">Products</field>
+        </record>
+
+        <record model="ir.ui.menu" id="stock.menu_product_variant_config_stock">
+            <field name="action" eval="False" />
+        </record>
+        <record id="sale.menu_sale_quotations" model="ir.ui.menu">
+            <field name="sequence" eval="1001"/>
+        </record>
+        <record model="ir.ui.menu" id="stock.product_product_menu">
+            <field name="name">Products</field>
+        </record>
+
+        <record model="ir.ui.menu" id="purchase.menu_procurement_partner_contact_form">
+            <field name="action" eval="False" />
+        </record>
+        <record model="ir.ui.menu" id="purchase.product_product_menu">
+            <field name="name">Products</field>
+        </record>
+    </data>
+</odoo>

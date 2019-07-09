@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record forcecreate="True" id="ir_cron_price_fetch_schedule" model="ir.cron">
+            <field name="name">Price Fetch Schedule: run scheduler</field>
+            <field name="model_id" ref="model_price_fetch_schedule"/>
+            <field name="state">code</field>
+            <field name="code">model.update_price_fetch_schedule_cron()</field>
+            <field eval="True" name="active"/>
+            <field name="user_id" ref="base.user_root"/>
+            <field name="interval_number">7</field>
+            <field name="interval_type">days</field>
+            <field name="numbercall">-1</field>
+            <field eval="False" name="doall"/>
+        </record>
+
+
+
+
+
+
+        <record id="website_scraping_cofig_1" model="website.scraping.cofig">
+            <field name="name">Restaurant Depot</field>
+            <field name="competitor">rdepot</field>
+            <field name="home_page_url">http://member.restaurantdepot.com/Public/Login.aspx</field>
+        </record>
+
+        <record id="website_scraping_cofig_2" model="website.scraping.cofig">
+            <field name="name">Webstaurant Store</field>
+            <field name="competitor">wdepot</field>
+            <field name="home_page_url">https://www.webstaurantstore.com/</field>
+        </record>
+
+
+
+
+        <record id="restaurant_depot_default" model="product.pricelist">
+            <field name="name">Restaurant Depot Default</field>
+            <field name="type">competitor</field>
+            <field name="competitor_id" eval="ref('website_scraping_cofig_1')"/>
+            <field name="competietor_margin">0</field>
+        </record>
+        <record id="restaurant_depot_10" model="product.pricelist">
+            <field name="name">Restaurant Depot + 10%</field>
+            <field name="type">competitor</field>
+            <field name="competitor_id" eval="ref('website_scraping_cofig_1')"/>
+            <field name="competietor_margin">10</field>
+        </record>
+        <record id="restaurant_depot_20" model="product.pricelist">
+            <field name="name">Restaurant Depot + 20%</field>
+            <field name="type">competitor</field>
+            <field name="competitor_id" eval="ref('website_scraping_cofig_1')"/>
+            <field name="competietor_margin">20</field>
+        </record>
+        <record id="restaurant_depot_30" model="product.pricelist">
+            <field name="name">Restaurant Depot + 30%</field>
+            <field name="type">competitor</field>
+            <field name="competitor_id" eval="ref('website_scraping_cofig_1')"/>
+            <field name="competietor_margin">30</field>
+        </record>
+
+
+
+
+
+
+        <record id="webstaurant_store_default" model="product.pricelist">
+            <field name="name">Webstaurant Store Default</field>
+            <field name="type">competitor</field>
+            <field name="competitor_id" eval="ref('website_scraping_cofig_2')"/>
+            <field name="competietor_margin">0</field>
+        </record>
+        <record id="webstaurant_store_10" model="product.pricelist">
+            <field name="name">Webstaurant Store + 10%</field>
+            <field name="type">competitor</field>
+            <field name="competitor_id" eval="ref('website_scraping_cofig_2')"/>
+            <field name="competietor_margin">10</field>
+        </record>
+        <record id="webstaurant_store_20" model="product.pricelist">
+            <field name="name">Webstaurant Store + 20%</field>
+            <field name="type">competitor</field>
+            <field name="competitor_id" eval="ref('website_scraping_cofig_2')"/>
+            <field name="competietor_margin">20</field>
+        </record>
+        <record id="webstaurant_store_30" model="product.pricelist">
+            <field name="name">Webstaurant Store + 30%</field>
+            <field name="type">competitor</field>
+            <field name="competitor_id" eval="ref('website_scraping_cofig_2')"/>
+            <field name="competietor_margin">30</field>
+        </record>
+
+
+
+
+
+    </data>
+</odoo>

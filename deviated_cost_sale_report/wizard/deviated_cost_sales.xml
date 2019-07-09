@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="view_deviated_cost_sale_wizard" model="ir.ui.view">
+            <field name="name">deviated.cost.sale.wizard</field>
+            <field name="model">deviated.cost.sale</field>
+            <field name="arch" type="xml">
+                <form string="Deviated Cost Sale Report">
+                    <sheet>
+                        <group col="4">
+                            <field name="partner_id" domain="[('supplier','=',True)]"/>
+                            <field name="month" required="1"/>
+                        </group>
+                    </sheet>
+                    <footer>
+                        <button string="Submit" type="object" name="print_report"/>
+                        or
+                        <button string="Cancel" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_deviated_cost_sale_report" model="ir.actions.act_window">
+            <field name="name">Vendor Rebate Report</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">deviated.cost.sale</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_deviated_cost_sale_wizard"/>
+            <field name="target">new</field>
+        </record>
+    </data>
+</odoo>

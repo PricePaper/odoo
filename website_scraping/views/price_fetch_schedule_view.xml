@@ -1,0 +1,52 @@
+<odoo>
+    <data>
+
+
+        <record id="view_price_fetch_schedule_tree" model="ir.ui.view">
+            <field name="name">price.fetch.schedule.tree</field>
+            <field name="model">price.fetch.schedule</field>
+            <field name="arch" type="xml">
+                <tree string="Manual Price Fetch Scheduler Queue" create='0' editable='bottom'>
+                    <field name="name"/>
+                    <field name="product_sku_ref_id"/>
+                    <field name="queued_date"/>
+                </tree>
+            </field>
+        </record>
+
+
+
+
+        <record id="view_price_fetch_schedule_search" model="ir.ui.view">
+            <field name="name">price.fetch.schedule.search</field>
+            <field name="model">price.fetch.schedule</field>
+            <field name="arch" type="xml">
+                <search string="Manual Price Fetch Scheduler Queue">
+                    <field name="name" string="Name"/>
+                    <field name="product_sku_ref_id"/>
+                    <filter string="Webstaurant Store" name="webs_store" domain="[('competitor','=', 'wdepot')]"/>
+                    <filter string="Restaurant Depot" name="rest_depot" domain="[('competitor','=', 'rdepot')]"/>
+                    <filter string="In Exception" name='in_exception' domain="[('in_exception','=', True)]"/>
+                </search>
+            </field>
+        </record>
+
+
+
+        <record id="action_price_fetch_schedule" model="ir.actions.act_window">
+            <field name="name">Manual Price Fetch Scheduler Queue</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">price.fetch.schedule</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{'search_default_in_exception': True}</field>
+            <field name="help" type="html">
+              <p>
+                No records Found
+              </p>
+            </field>
+        </record>
+
+
+    </data>
+</odoo>

@@ -1,0 +1,19 @@
+<odoo>
+    <data>
+        <record id="res_partner_account_inherit_pruchase_ext" model="ir.ui.view">
+            <field name="name">res.partner.acc.pricepaper</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="account.view_partner_property_form" />
+            <field name="arch" type="xml">
+                <field name="property_supplier_payment_term_id" position="attributes">
+                    <attribute name="domain">[('order_type', '=', 'purchase')]</attribute>
+                    <attribute name="readonly">1</attribute>
+                </field>
+                <field name="property_payment_term_id" position="attributes">
+                    <attribute name="domain">[('order_type', '=', 'sale')]</attribute>
+                    <attribute name="readonly">1</attribute>
+                </field>
+            </field>
+        </record>
+    </data>
+</odoo>

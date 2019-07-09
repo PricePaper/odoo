@@ -1,0 +1,29 @@
+<odoo>
+    <data>
+        <record id="inherit_account_invoice_form_view_purchase_ext" model="ir.ui.view">
+            <field name="name">inherite.account.invoice.form.view</field>
+            <field name="model">account.invoice</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="account.invoice_form" />
+            <field name="arch" type="xml">
+                <field name='payment_term_id' position='attributes'>
+                    <attribute name='domain'>[('order_type', '=', 'sale')]</attribute>
+                </field>
+            </field>
+        </record>
+        <record id="inherit_account_invoice_supplier_form_view" model="ir.ui.view">
+            <field name="name">inherited.account.supplier.form.view</field>
+            <field name="model">account.invoice</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="account.invoice_supplier_form" />
+            <field name="arch" type="xml">
+                <field name='payment_term_id' position='attributes'>
+                    <attribute name='domain'>[('order_type', '=', 'purchase')]</attribute>
+                </field>
+                <xpath expr="//field[@name='date_due']" position="after">
+                    <field name="discount_due_date" readonly='1'/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

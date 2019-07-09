@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_sale_history_add_po_wiz" model="ir.ui.view">
+            <field name="name">add.sale.history.to.po</field>
+            <field name="model">add.sale.history.po</field>
+            <field name="arch" type="xml">
+                <form string="Add Products from sales history">
+
+                    <style>
+                        .modal-lg{width:1500px !important;}
+                        table.o_list_view tbody tr td:nth-child(even){background-color:#e1e1e1 !important;}
+                    </style>
+
+
+
+
+
+
+
+                        <p class="oe_grey">
+                            <b>Please enter the new quantity before pressing ADD LINE button to add the product to the order.</b>
+                        </p>
+                        <p class="oe_grey">
+                            <b>Lines in red color means that there are other vendors with lower price for this product.</b>
+                        </p>
+                            <separator string="Sales History"/>
+                            <group>
+                                <group>
+                                    <field name="search_box" placeholder=" Use product name, product internal reference to search."/>
+                                </group>
+                            </group>
+                            <field name="sale_history_ids" >
+                                <tree create="0" delete="0" editable="top" decoration-danger="is_not_lowest_price==True">
+                                    <field name="new_qty" style="color:blue" help="New quantity to be ordered"/>
+                                    <field name="product_pseudo_id" readonly="0" tabindex="0"/>
+                                    <field name="product_id" invisible="1"/>
+                                    <field name="product_uom" readonly='1' tabindex="0" widget="selection" help="Unit of measure"/>
+                                    <field name="product_oh_qty" readonly='1' tabindex="0" help="On hand quantity"/>
+                                    <field name="product_price" readonly='1' tabindex="0" help="Price for which this product is ordered from this vendor"/>
+                                    <field name="is_not_lowest_price" invisible="1"/>
+                                    <field name="op_min" readonly="1" tabindex="0"/>
+                                    <field name="op_max" readonly="1" tabindex="0"/>
+                                    <field name="forecast_days_min" readonly="1" tabindex="0"/>
+                                    <field name="forecast_days_max" readonly="1" tabindex="0"/>
+                                    <field name="month1" readonly='1' tabindex="0"/>
+                                    <field name="month2" readonly='1' tabindex="0"/>
+                                    <field name="month3" readonly='1' tabindex="0"/>
+                                    <field name="month4" readonly='1' tabindex="0"/>
+                                    <field name="month5" readonly='1' tabindex="0"/>
+                                    <field name="month6" readonly='1' tabindex="0"/>
+                                    <field name="month7" readonly='1' tabindex="0"/>
+                                    <field name="month8" readonly='1' tabindex="0"/>
+                                    <field name="month9" readonly='1' tabindex="0"/>
+                                    <field name="month10" readonly='1' tabindex="0"/>
+                                    <field name="month11" readonly='1' tabindex="0"/>
+                                    <field name="month12" readonly='1' tabindex="0"/>
+                                    <field name="month13" readonly='1' tabindex="0"/>
+                                    <field name="month14" readonly='1' tabindex="0"/>
+                                    <field name="month15" readonly='1' tabindex="0"/>
+                                </tree>
+                            </field>
+
+                    <footer>
+                        <button string="Add Line" type="object" name="add_history_lines"/>
+                        or
+                        <button string="Cancel" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+    </data>
+</odoo>

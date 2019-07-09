@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="master_pick_ticket_report">
+            <t t-call="web.html_container">
+                <t t-call="web.basic_layout">
+                    <div class="page">
+                        <div class="oe_structure"/>
+                        <div class="row">
+                            <strong class="text-center">
+                                <h1>Master Pick Ticket</h1>
+                            </strong>
+                        </div>
+                        <table class="table table-bordered mb64">
+                            <tr>
+                                <th>Product</th>
+                                <th>UOM</th>
+                                <th>Total Quantity</th>
+                                <th>Location</th>
+                            </tr>
+                            <t t-set="location_list" t-value="get_master_tickets(docs)"/>
+                            <t t-foreach="location_list" t-as="location">
+                                <t t-foreach="location[1]" t-as="product">
+                                    <t t-foreach="product_value" t-as="uom">
+                                        <tr>
+                                            <td>
+                                                <t t-esc="product.name"/>
+                                            </td>
+                                            <td>
+                                                <t t-esc="uom.name"/>
+                                            </td>
+                                            <td>
+                                                <t t-esc="uom_value"/>
+                                            </td>
+                                            <td>
+                                                <t t-esc="location[0]"/>
+                                            </td>
+                                        </tr>
+                                    </t>
+                                </t>
+                            </t>
+                        </table>
+                    </div>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>

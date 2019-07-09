@@ -1,0 +1,27 @@
+<odoo>
+    <data>
+
+
+
+
+        <record id="product_category_sale_line_report" model="ir.ui.view">
+            <field name="name">product.category.form.pricepaper</field>
+            <field name="model">product.category</field>
+            <field name="inherit_id" ref="product.product_category_form_view" />
+            <field name="arch" type="xml">
+                <group name="first" position="after">
+                    <group>
+                        <group>
+                            <field name="class_margin"/>
+                        </group>
+                        <group>
+                        </group>
+                    </group>
+                </group>
+            </field>
+        </record>
+
+
+
+    </data>
+</odoo>

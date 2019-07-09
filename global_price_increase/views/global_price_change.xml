@@ -1,0 +1,112 @@
+<odoo>
+    <data>
+        <record id="view_global_price_change_tree" model="ir.ui.view">
+            <field name="name">global.price.change.tree</field>
+            <field name="model">global.price.change</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="customer_filter"/>
+                    <field name="customer_ids"  widget="many2many_tags"/>
+                    <field name="salesrep_id"/>
+                    <field name="customer_ranking"/>
+                    <field name="product_filter"/>
+                    <field name="vendor_id"/>
+                    <field name="customer_categ_ids"  widget="many2many_tags"/>
+                    <field name="exclude_date"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_global_price_change_form" model="ir.ui.view">
+            <field name="name">global.price.change.form</field>
+            <field name="model">global.price.change</field>
+            <field name="arch" type="xml">
+                <form string="Global Price Change">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="customer_filter" widget="radio" required='1' attrs="{'readonly':[('is_done', '=', True)]}"/>
+                            </group>
+                            <group>
+                                <field name="customer_ids" options="{'no_create': True}" domain="[('customer', '=', True)]" attrs="{'readonly':[('is_done', '=', True)], 'invisible': [('customer_filter', '!=', 'customer')], 'required': [('customer_filter', '=', 'customer')],}" >
+                                    <tree>
+                                        <field name='display_name'/>
+                                    </tree>
+                                </field>
+                                <field name="salesrep_id" options="{'no_create': True}" domain="[('is_sales_person', '=', True)]" attrs="{'readonly':[('is_done', '=', True)], 'invisible': [('customer_filter', '!=', 'salesrep')], 'required': [('customer_filter', '=', 'salesrep')]}"/>
+                                <field name="customer_categ_ids" options="{'no_create': True}" attrs="{'readonly':[('is_done', '=', True)], 'invisible': [('customer_filter', '!=', 'categ')], 'required': [('customer_filter', '=', 'categ')]}"/>
+                            </group>
+                        </group>
+                        <group>
+                            <group>
+                                <field name="customer_ranking" attrs="{'readonly':[('is_done', '=', True)]}"/>
+                            </group>
+                            <!-- <group>
+                                <field name="ranking_required" attrs="{'readonly':[('is_done', '=', True)],}"/>
+                            </group>
+                            <group>
+                                <field name="customer_ranking" attrs="{'readonly':[('is_done', '=', True)], 'required': [('ranking_required', '=', True)]}"/>
+                            </group> -->
+                        </group>
+                        <group>
+                            <group>
+                                <field name="product_filter" widget="radio" required='1' attrs="{'readonly':[('is_done', '=', True)]}"/>
+                            </group>
+                            <group>
+                                <field name="vendor_id" domain="[('supplier', '=', True)]" attrs="{'readonly':[('is_done', '=', True)], 'invisible': [('product_filter', '!=', 'vendor')], 'required': [('product_filter', '=', 'vendor')],}"/>
+                                <field name="product_category_ids" widget="many2many_tags" attrs="{'readonly':[('is_done', '=', True)], 'invisible': [('product_filter', '!=', 'categ')], 'required': [('product_filter', '=', 'categ')]}"/>
+                            </group>
+                        </group>
+                        <group>
+                            <group>
+                                <field name="is_exclude" attrs="{'readonly':[('is_done', '=', True)]}"/>
+                                <field name="price_change" required='1' attrs="{'readonly':[('is_done', '=', True)]}"/>
+                                <button string="Apply Immediately" confirm="You are going to change the price in the selected customer pricelists. Are you sure you want to proceed? " type="object" name="immediate_price_change" class="oe_read_only" attrs="{'invisible':[('is_done', '=', True)]}"/>
+                                <field name="is_done" invisible='1'/>
+                            </group>
+                            <group>
+                                <field name="exclude_date" attrs="{'invisible': [('is_exclude', '=', False)], 'required': [('is_exclude', '=', True)], 'readonly':[('is_done', '=', True)]}"/>
+                                <field name="run_date" attrs="{'readonly':[('is_done', '=', True)]}"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+
+        <record id="view_global_price_change_search" model="ir.ui.view">
+            <field name="name">global.price.change.search</field>
+            <field name="model">global.price.change</field>
+            <field name="arch" type="xml">
+                <search string="Search Global Price Change">
+                    <filter name="todo" string="To Do" domain="[('is_done','=', False)]" help="To Do Records"/>
+                    <field name="run_date"/>
+                    <group expand="0" string="Group By">
+                        <filter string="Update Date" name="groupby_date" domain="[]" context="{'group_by':'run_date'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="action_global_price_change" model="ir.actions.act_window">
+            <field name="name">Global Price Change</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">global.price.change</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{'search_default_todo': 1}</field>
+            <field name="help" type="html">
+              <p>
+                No Records found.
+              </p>
+            </field>
+        </record>
+        <menuitem id="menu_global_price_change"
+            name="Global Price Change"
+            action="action_global_price_change"
+            parent="sale.sale_order_menu"
+            groups="sales_team.group_sale_manager"
+            />
+    </data>
+</odoo>

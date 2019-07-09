@@ -1,0 +1,23 @@
+<odoo>
+    <data>
+         <menuitem id="menu_commisssion"
+             name="Sales Commission Rule"
+             action="action_sales_commission"
+             parent="sale.sale_order_menu"
+             groups="sales_commission.group_sales_commission"
+              />
+        <menuitem id="menu_existing_user"
+            name="Search Existing Customer"
+            action="action_existing_user"
+            parent="sale.sale_order_menu"
+            groups="sales_team.group_sale_salesman"
+            sequence="9"
+             />
+        <menuitem id="report_sales_commission"
+            action="generate_sales_commission"
+            name="Sales Commission"
+            parent="sale.sale_order_menu"
+            groups="sales_team.group_sale_salesman,sales_commission.group_sales_commission"
+            sequence="4"/>
+    </data>
+</odoo>

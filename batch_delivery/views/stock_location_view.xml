@@ -1,0 +1,21 @@
+<odoo>
+    <data>
+
+
+        <record id="stock_location_form_inherrit" model="ir.ui.view">
+            <field name="name">stock.location.form.inherrit</field>
+            <field name="model">stock.location</field>
+            <field name="inherit_id" ref="stock.view_location_form"/>
+            <field name="arch" type="xml">
+
+                <field name="return_location" position="after">
+                    <field name="is_transit_location" attrs="{'invisible':[('usage', '!=', 'transit')]}"/>
+                </field>
+
+            </field>
+        </record>
+
+
+
+    </data>
+</odoo>

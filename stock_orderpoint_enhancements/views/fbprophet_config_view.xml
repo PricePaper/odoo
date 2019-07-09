@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+
+        <record id="fbprop_config_inherit_op_enhance" model="ir.ui.view">
+            <field name="name">fbprophet.config.inherit</field>
+            <field name="model">fbprophet.config</field>
+            <field name="inherit_id" ref="odoo_fbprophet.fbprophet_config_form_view" />
+            <field name="arch" type="xml">
+
+                <xpath expr="//field[@name='config_type']" position="after">
+                    <field name="inv_config_for" attrs="{'invisible': [('config_type', '!=', 'inventory')]}"/>
+                    <field name="categ_id" attrs="{'invisible': ['|', ('config_type', '!=', 'inventory'), ('inv_config_for', '!=', 'categ')]}"/>
+                    <field name="product_id" attrs="{'invisible': ['|', ('config_type', '!=', 'inventory'), ('inv_config_for', '!=', 'product')]}"/>
+                </xpath>
+
+            </field>
+        </record>
+
+
+
+    </data>
+</odoo>

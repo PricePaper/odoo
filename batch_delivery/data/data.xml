@@ -1,0 +1,14 @@
+<odoo>
+    <data>
+        <record id="batch_picking_driver_invoice" model="product.product">
+            <field name="name">Truck Driver Batch Invoice</field>
+            <field name="standard_price">0.0</field>
+            <field name="list_price">0.0</field>
+            <field name="type">service</field>
+            <field name="uom_id" ref="product.product_uom_unit"/>
+            <field name="uom_po_id" ref="product.product_uom_unit"/>
+            <field name="description_sale"> </field>
+            <field name="default_code">batch_driver_invoice</field>
+        </record>
+    </data>
+</odoo>

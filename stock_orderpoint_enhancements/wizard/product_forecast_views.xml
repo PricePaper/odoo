@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+
+    <record id="view_order_product_forecast_graph" model="ir.ui.view">
+         <field name="name">product.forecast.graph</field>
+         <field name="model">product.forecast</field>
+         <field name="arch" type="xml">
+             <graph string="Product Forecast">
+                 <field name="date" interval="day" type="row"/>
+                 <field name="quantity_max" type="measure"/>
+                 <field name="quantity_min" type="measure"/>
+                 <field name="quantity" type="measure"/>
+             </graph>
+         </field>
+    </record>
+
+    <record id="view_order_product_forecast_pivot" model="ir.ui.view">
+         <field name="name">product.forecast.pivot</field>
+         <field name="model">product.forecast</field>
+         <field name="arch" type="xml">
+             <pivot string="Product Forecast" disable_linking="True">
+                 <field name="date" interval="day" type="row"/>
+                 <field name="quantity_max" type="measure"/>
+                 <field name="quantity_min" type="measure"/>
+                 <field name="quantity" type="measure"/>
+             </pivot>
+         </field>
+    </record>
+
+
+        <record id="view_product_forecast_search" model="ir.ui.view">
+            <field name="name">product.forecast</field>
+            <field name="model">product.forecast</field>
+            <field name="arch" type="xml">
+               <search string="Search forecast">
+                    <group expand="0" string="Group By">
+                        <filter string="Week" domain="[]" context="{'group_by':'date:week'}"/>
+                        <filter string="Day" domain="[]" context="{'group_by':'date:day'}"/>
+                    </group>
+               </search>
+            </field>
+        </record>
+
+
+
+
+
+
+</odoo>

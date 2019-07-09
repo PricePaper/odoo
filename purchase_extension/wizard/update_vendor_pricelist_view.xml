@@ -1,0 +1,52 @@
+<odoo>
+    <data>
+
+
+        <record id="update_vendor_pricelist_wizard" model="ir.ui.view">
+            <field name="name">update.vendor.pricelist</field>
+            <field name="model">update.vendor.pricelist</field>
+            <field name="arch" type="xml">
+                <form string="Update Vendor Pricelist">
+                    <sheet>
+                        <group>
+                            <field name="vendor_id" required="1" domain="[('supplier', '=', True)]"/>
+                        </group>
+
+                        <field name="line_ids" >
+                            <tree editable="top">
+                                <field name="pricelist_id"/>
+                                <field name="product_id" required="1"/>
+                                <field name="qty_min"/>
+                                <field name="price"/>
+                            </tree>
+                        </field>
+
+                    </sheet>
+                    <footer>
+                        <button string="Update Pricelists" type="object" name="update_pricelists"/>
+                        or
+                        <button string="Cancel" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+
+
+        <record id="action_update_vendor_pricelist_wizard" model="ir.actions.act_window">
+            <field name="name">Update Vendor Pricelists</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">update.vendor.pricelist</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="update_vendor_pricelist_wizard"/>
+            <field name="target">new</field>
+        </record>
+
+        <menuitem action="action_update_vendor_pricelist_wizard"
+              id="menu_update_vendor_pricelist_wizard"
+              name="Update Vendor Pricelists"
+              parent="purchase.menu_procurement_management"
+              sequence="17"/>
+    </data>
+</odoo>

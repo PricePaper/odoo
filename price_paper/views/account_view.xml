@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="account_payment_term_line_tree_pricepaper" model="ir.ui.view">
+            <field name="name">account.payment.term.line.tree.pricepaper</field>
+            <field name="model">account.payment.term.line</field>
+            <field name="inherit_id" ref="account.view_payment_term_line_tree"/>
+            <field name="arch" type="xml">
+                <field name="days" position="before">
+                    <field name="grace_period"/>
+                </field>
+            </field>
+        </record>
+
+        <record id="account_payment_term_line_form_pricepaper" model="ir.ui.view">
+            <field name="name">account.payment.term.form.line.pricepaper</field>
+            <field name="model">account.payment.term.line</field>
+            <field name="inherit_id" ref="account.view_payment_term_line_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//group[1]/group[2]/div[1]" position="after">
+                    <field name="grace_period"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="inherit_account_invoice_form_view" model="ir.ui.view">
+            <field name="name">inherited.account.invoice.form.view</field>
+            <field name="model">account.invoice</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="account.invoice_form" />
+            <field name="arch" type="xml">
+                <xpath expr="//tree[1]" position="attributes">
+                    <attribute name="editable" />
+                    <!-- <attribute name="decoration-danger">color=='R'</attribute>
+                    <attribute name="decoration-info">color=='B'</attribute>
+                    <attribute name="decoration-success">color=='G'</attribute> -->
+                    <attribute name="decoration-danger">profit_margin&lt;0</attribute>
+                    <attribute name="decoration-info">profit_margin==0</attribute>
+                    <attribute name="decoration-success">profit_margin&gt;0</attribute>
+                </xpath>
+                <xpath expr="//field[@name='invoice_line_ids']/tree/field[@name='price_unit']" position="after">
+                    <field name="profit_margin"/>
+                    <!-- <field name="color" invisible="1"/> -->
+                </xpath>
+                <xpath expr="//field[@name='amount_untaxed']" position="after">
+                    <field name="gross_profit"  widget="monetary" options="{'currency_field': 'currency_id', 'field_digits': True}"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="inherit_account_invoice_line_form_view" model="ir.ui.view">
+            <field name="name">inherited.account.invoice.line.form.view</field>
+            <field name="model">account.invoice.line</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="account.view_invoice_line_form" />
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='price_unit']" position="before">
+                    <field name="profit_margin" attrs="{'invisible': [('parent.type','!=','out_invoice')]}"/>
+                </xpath>
+            </field>
+        </record>
+        <record id="inherit_view_account_position_form_pricepaper" model="ir.ui.view">
+            <field name="name">inherited.account.position.form.view</field>
+            <field name="model">account.fiscal.position</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="account.view_account_position_form" />
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='name']" position="after">
+                    <field name="code"/>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</odoo>

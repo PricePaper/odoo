@@ -1,0 +1,163 @@
+<odoo>
+    <data>
+        <record id="product_price_maintanace_tree_view" model="ir.ui.view">
+            <field name="name">price.maintanace.tree</field>
+            <field name="model">product.product</field>
+            <field name="arch" type="xml">
+                <tree string="Price Maintanance" create="0" delete="0" edit="0">
+                    <field name="default_code" />
+                    <field name="name" />
+                    <field name="uom_id" />
+                    <field name="standard_price" />
+                    <field name="cost" />
+                    <field name="lst_price" />
+                </tree>
+            </field>
+        </record>
+
+        <record id="product_price_maintanace_form_view" model="ir.ui.view">
+            <field name="name">price.maintanace.form</field>
+            <field name="model">product.product</field>
+            <field name="arch" type="xml">
+                <form string="Item Price Maintanance" create="0" delete="0" edit="1">
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <!-- <button name="cost_change_cron_button" string='Edit' type="object" class="oe_stat_button" icon="fa-pencil" /> -->
+                           <button name="%(price_maintanance.act_price_edit_notes)d" string='Audit' type="action" class="oe_stat_button" icon="fa-sticky-note" />
+                        </div>
+                        <group>
+                            <group>
+                                <field name="name" readonly="1"/>
+                            </group>
+                            <group>
+                                <field name="default_code" readonly="1"/>
+                            </group>
+                        </group>
+                        <group>
+                            <group string="Sales">
+                                <field name="uom_id" readonly="1"/>
+                                <field name="sale_uoms" widget="many2many_tags"/>
+                                <field name="standard_price" />
+                                <field name="burden_percent"/>
+                                <field name="cost" />
+                                <field name="lst_price" string='Standard Price'/>
+                                <field name="price_margin" />
+                            </group>
+                            <group string="Purchases">
+                                <field name="last_purchase_price" />
+                                <field name="last_po" class="oe_link oe_read_only"/>
+                            </group>
+                        </group>
+                        <group>
+                            <group string='Median Prices'>
+                                <field name="median_price" nolabel='1'/>
+                            </group>
+                            <group string="Future Price">
+                                <field name="future_price_ids" nolabel="1" context="{'product_id':id}">
+                                    <tree>
+                                        <field name="run_date"/>
+                                        <field name="update_standard_price"/>
+                                        <field name="update_customer_pricelist"/>
+                                        <field name="price_filter"/>
+                                        <field name="price_change"/>
+                                        <field name="is_done"/>
+                                    </tree>
+                                    <form string="Cost Change">
+                                        <group>
+                                            <group>
+                                                <field name="run_date" required='1' attrs="{'readonly':[('is_done', '=', True)]}"/>
+                                                <field name="is_done" invisible='1'/>
+                                                <field name="update_standard_price" attrs="{'readonly':[('is_done', '=', True)]}"/>
+                                                <field name="update_customer_pricelist" attrs="{'readonly':[('is_done', '=', True)]}"/>
+                                            </group>
+                                        </group>
+                                        <group>
+                                            <group>
+                                                <field name="price_filter" widget="radio" required='1' attrs="{'readonly':[('is_done', '=', True)]}"/>
+                                            </group>
+                                            <group>
+                                                <field name="price_change" attrs="{'readonly':[('is_done', '=', True)]}"/>
+                                            </group>
+                                            <field name="old_cost" invisible="1"/>
+                                            <field name="is_done" invisible="1"/>
+                                        </group>
+                                    </form>
+                                </field>
+                                <separator/>
+                                <!-- <br></br> -->
+                                <button name="cost_change_cron_button" string='Run Cron' attrs="{'invisible': [('future_price_ids', '=', [])]}" type="object" icon="fa-spinner" />
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string='Competitor Pricelist'>
+                                <group string='Competitor Pricelist Entries'>
+                                <field name="competitor_price_ids" nolabel='1' >
+                                    <tree editable="top" create="0">
+                                        <field name="pricelist_id" readonly="1"/>
+                                        <field name="price" />
+                                        <field name="product_uom" readonly="1" string="UOM"/>
+                                        <field name="price_last_updated" string="Last Updated"/>
+                                        <field name="sale_uoms" invisible="1"/>
+                                    </tree>
+                                </field>
+                                </group>
+                            </page>
+                            <page string='Customer Pricelist'>
+                                <group string='Customer Pricelist Entries'>
+                                <field name="customer_price_ids" nolabel='1'>
+                                    <tree editable="top" create="0">
+                                        <field name="pricelist_id" readonly="1"/>
+                                        <field name="price" />
+                                        <field name="product_uom" readonly="1" string="UOM"/>
+                                        <field name="price_last_updated" string="Last Updated"/>
+                                        <field name="customer_rank" string="Cust Rank"/>
+                                        <field name="mrg_per_lst_3_mon"/>
+                                        <field name="last_sale_date"/>
+                                        <field name="last_sale_price"/>
+                                        <field name="last_quantity_sold"/>
+                                        <field name="sale_uoms" invisible="1"/>
+                                    </tree>
+                                </field>
+                                </group>
+                            </page>
+                        </notebook>
+                        <group>
+                            <field name="change_flag"/>
+                            <field name="audit_notes" placeholder="Enter Notes Here..." attrs="{'invisible':[('change_flag', '=', False)], 'required': [('change_flag', '=', True)]}" />
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="action_price_maintanace" model="ir.actions.act_window">
+            <field name="name">Item Price Maintanance</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">product.product</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+              <p>
+                No Sale Order Found.
+              </p>
+            </field>
+        </record>
+        <record model="ir.actions.act_window.view" id="action_price_maintanace_tree">
+             <field name="sequence" eval="1"/>
+             <field name="view_mode">tree</field>
+             <field name="view_id" ref="product_price_maintanace_tree_view"/>
+             <field name="act_window_id" ref="action_price_maintanace"/>
+        </record>
+
+        <record model="ir.actions.act_window.view" id="action_price_maintanace_form">
+             <field name="sequence" eval="2"/>
+             <field name="view_mode">form</field>
+             <field name="view_id" ref="product_price_maintanace_form_view"/>
+             <field name="act_window_id" ref="action_price_maintanace"/>
+        </record>
+        <menuitem id="menu_price_maintanace"
+            name="Item Price Maintanance"
+            action="action_price_maintanace"
+            parent="website_scraping.menu_website_scrap_catalog"
+            sequence="1" />
+    </data>
+</odoo>

@@ -1,0 +1,47 @@
+<odoo>
+    <data>
+        <record id="view_assign_route_wizard_form" model="ir.ui.view">
+            <field name="name">assign.route.wizard</field>
+            <field name="model">assign.route.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Purge customer purchase history">
+                    <sheet>
+                        <separator string="Assign Routes Selector"/>
+                            <field name="line_ids" >
+                                <tree editable="bottom">
+                                    <field name="route_id" required="1"/>
+                                    <field name="prior_batch_id" context="{'from_route_picker':'True'}"/>
+                                </tree>
+                            </field>
+                    </sheet>
+                    <footer>
+                        <button string="Assign" type="object" name="assign_routes"/>
+                        or
+                        <button string="Cancel" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+
+        <record id="action_view_assign_route_wizard_form" model="ir.actions.act_window">
+            <field name="name">Assign Routes Selector</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">assign.route.wizard</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_assign_route_wizard_form"/>
+            <field name="target">new</field>
+        </record>
+
+
+        <menuitem id="assign_routes_wizard"
+            name="Assign Route Selector"
+            action="action_view_assign_route_wizard_form"
+            parent="stock.menu_stock_warehouse_mgmt"
+            sequence="8"
+             />
+
+
+    </data>
+</odoo>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_purchase_history_add_so_wiz" model="ir.ui.view">
+            <field name="name">add.purchase.history.to.so</field>
+            <field name="model">add.purchase.history.so</field>
+            <field name="arch" type="xml">
+                <form string="Add Purchase history">
+                    <sheet>
+                        <p class="oe_grey">
+                            Use product name, product internal reference or order date to search.
+                        </p>
+                        <p>
+                            <b>Please select atleast one line by checking the select checkbox before pressing ADD LINE button.</b>
+                        </p>
+
+                            <separator string="Purchase History"/>
+                            <group>
+                                <group>
+                                    <field name="search_box" />
+                                </group>
+                            </group>
+                            <field name="purchase_history_ids" >
+                                <tree create="0" delete="0" editable="top">
+                                    <field name="qty_to_be" style="color:blue"/>
+                                    <field name="product_name" readonly='1' tabindex="0"/>
+                                    <field name="product_uom_qty" readonly='1' tabindex="0"/>
+                                    <field name="product_uom" readonly='1' tabindex="0" widget="selection"/>
+                                    <field name="price_unit" readonly='1' tabindex="0"/>
+                                    <field name="date_order" readonly='1' tabindex="0"/>
+                                    <field name="product_category" readonly='1' tabindex="0" widget="selection"/>
+                                    <field name="order_line" invisible="1"/>
+                                </tree>
+                            </field>
+                    </sheet>
+                    <footer>
+                        <button string="Add Line" type="object" name="add_history_lines"/>
+                        or
+                        <button string="Cancel" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+    </data>
+</odoo>

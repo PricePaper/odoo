@@ -1,0 +1,30 @@
+<odoo>
+    <data>
+        <record id="res_company_inherit_order_point" model="ir.ui.view">
+            <field name="name">res.company.pricepaper.orderpoint</field>
+            <field name="model">res.company</field>
+            <field name="inherit_id" ref="base.view_company_form" />
+            <field name="arch" type="xml">
+                <xpath expr="//notebook" position="attributes">
+                    <attribute name='colspan'>6</attribute>
+                </xpath>
+                <xpath expr="//form[1]/sheet[1]/notebook[1]" position="inside">
+                    <page string='Others'>
+                        <group>
+                            <group>
+                                <field name='burden_percent'/>
+                            </group>
+                        </group>
+                        <group >
+                            <group string="Partner's Default Values">
+                                <field name='partner_delivery_method_id'/>
+                                <field name='partner_country_id'/>
+                                <field name='partner_state_id'/>
+                            </group>
+                        </group>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

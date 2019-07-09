@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <template id="report_driver_document">
+        <t t-call="web.basic_layout">
+                <div class="page">
+                    <div class="col-xs-6">
+                        <strong>Driver :</strong>
+                        <span t-field="o.truck_driver_id"/>
+                    </div>
+                    <div class="col-xs-6">
+                        <strong>Date  :</strong>
+                        <span t-field="o.date"/>
+                    </div>
+                    <div class="col-xs-6">
+                        <strong>Route  :</strong>
+                        <span t-field="o.route_id"/>
+                    </div>
+
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th><strong>Deliver Order</strong></th>
+                                <th><strong>Customer Name</strong></th>
+                                <th><strong>Customer Code</strong></th>
+                                <th><strong>Sales Order</strong></th>
+                                <th><strong>Amount Paid</strong></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-set="total" t-value="0"/>
+                            <tr t-foreach="o.picking_ids" t-as="picking">
+                                <t t-if="picking.state != 'cancel'">
+                                    <td>
+                                        <span t-if="picking.name">
+                                            <t t-esc="picking.name"/>
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span t-if="picking.partner_id">
+                                            <t t-esc="picking.partner_id.name"/>
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span t-if="picking.partner_id.customer_code">
+                                            <t t-esc="picking.partner_id.customer_code"/>
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span t-if="picking.sale_id and picking.sale_id.name">
+                                            <t t-esc="picking.sale_id.name"/>
+                                        </span>
+                                    </td>
+                                    <td></td>
+                                </t>
+                            </tr>
+                            <tr>
+                                <td colspan="4"></td>
+                                <td class="text-left">Total</td>
+                                <td ></td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+         </t>
+    </template>
+
+    <template id="report_batch_driver">
+        <t t-foreach="docs" t-as="o">
+            <t t-call="batch_delivery.report_driver_document"/>
+        </t>
+    </template>
+
+</odoo>

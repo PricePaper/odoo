@@ -1,0 +1,70 @@
+<odoo>
+    <data>
+        <record id="view_competitor_website_price_tree" model="ir.ui.view">
+            <field name="name">competitorwebsite.price.tree</field>
+            <field name="model">competitor.website.price</field>
+            <field name="arch" type="xml">
+                <tree string="Competitor Website Price" create="0">
+                    <field name="item_name" />
+                    <field name="item_price"/>
+                    <field name="competitor_item_uom" />
+                    <field name="price" />
+                    <field name="product_id"/>
+                    <field name="update_date"/>
+                    <field name="competitor"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_competitor_website_price_search" model="ir.ui.view">
+            <field name="name">competitorwebsite.price.search</field>
+            <field name="model">competitor.website.price</field>
+            <field name="arch" type="xml">
+                <search string="Competitor Website Price">
+                    <field name="product_sku_ref_id" required='1'/>
+                    <field name="product_id"/>
+                    <field name="item_name" string="Name" />
+                    <filter string="Webstaurant Store" name="webs_store" domain="[('competitor','=', 'wdepot')]"/>
+                    <filter string="Restaurant Depot" name="rest_depot" domain="[('competitor','=', 'rdepot')]"/>
+                </search>
+            </field>
+        </record>
+
+        <record id="view_competitor_website_price_form" model="ir.ui.view">
+            <field name="name">competitorwebsite.price.form</field>
+            <field name="model">competitor.website.price</field>
+            <field name="arch" type="xml">
+                <form string="Competitor Website Price" create="0">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="product_sku_ref_id" required='1'/>
+                                <field name="item_name"/>
+                                <field name="product_id"/>
+                            </group>
+                            <group>
+                                <field name="item_price" readonly='1'/>
+                                <field name="price" />
+                                <field name="competitor_item_uom"/>
+                                <field name="update_date"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_competitor_website_price" model="ir.actions.act_window">
+            <field name="name">Competitor Website Price</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">competitor.website.price</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+              <p>
+                No records Found
+              </p>
+            </field>
+        </record>
+    </data>
+</odoo>

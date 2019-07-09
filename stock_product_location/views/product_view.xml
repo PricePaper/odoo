@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+  <data>
+    <!-- stock default location -->
+    <record model="ir.ui.view" id="product_normal_stock_loc_form_view">
+      <field name="name">view.product.normal.stock.loc.form</field>
+      <field name="model">product.product</field>
+      <field name="inherit_id" ref="product.product_normal_form_view"/>
+      <field name="type">form</field>
+      <field name="arch" type="xml">
+       <xpath expr="//group[@name='group_lots_and_weight']" position="inside">
+            <field name="property_stock_location" string="Stock Location" domain="[('usage','=','internal')]" attrs="{'invisible':[('type','=','service')]}" />
+       </xpath>
+
+      </field>
+    </record>
+
+    <record model="ir.ui.view" id="product_category_loc_form_view">
+      <field name="name">view.product.category.loc.form</field>
+      <field name="model">product.category</field>
+      <field name="inherit_id" ref="product.product_category_form_view"/>
+      <field name="type">form</field>
+      <field name="arch" type="xml">
+        <xpath expr="//group[@name='first']" position="inside">
+           <field name="property_stock_location" string="Stock Location" domain="[('usage','=','internal')]"/>      
+        </xpath>
+      </field>
+    </record>
+
+
+  </data>
+</odoo>

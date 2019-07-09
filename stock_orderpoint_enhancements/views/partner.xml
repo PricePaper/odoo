@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="res_partner_inherit_stock_orderpoint" model="ir.ui.view">
+            <field name="name">res.partner.stock.orderpoint.pricepaper</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form" />
+            <field name="arch" type="xml">
+                <xpath expr="//notebook/page[@name='sales_purchases']/group/group[2]/field[@name='supplier']" position="after">
+                    <field name="delay" attrs="{'invisible': [('supplier', '=', False)]}"/>
+                    <field name="order_freq" attrs="{'invisible': [('supplier', '=', False)]}"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="product_pricelist_scraping_inherit" model="ir.ui.view">
+            <field name="name">product.pricelist.pricepaper</field>
+            <field name="model">product.pricelist</field>
+            <field name="inherit_id" ref="price_paper.product_pricelist_inherit_pricepaper"/>
+            <field name="arch" type="xml">
+                <field name="expiry_date" position="after">
+                    <field name="competitor_id" attrs="{'invisible': [('type', '!=', 'competitor')]}" />
+                    <field name="competietor_margin" attrs="{'invisible': [('type', '!=', 'competitor')]}"/>
+                </field>
+            </field>
+        </record>
+    </data>
+</odoo>

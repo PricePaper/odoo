@@ -1,0 +1,21 @@
+<odoo>
+    <data>
+
+
+
+
+        <record id="sale_order_inherit_salescommission" model="ir.ui.view">
+            <field name="name">sale.order.salecommission</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form" />
+            <field name="arch" type="xml">
+                <field name='payment_term_id' position="before">
+                    <field name="sales_person_ids" widget="many2many_tags" readonly="1"/>
+                </field>
+            </field>
+        </record>
+
+
+
+    </data>
+</odoo>

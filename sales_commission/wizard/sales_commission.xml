@@ -1,0 +1,70 @@
+<odoo>
+    <data>
+        <record id="view_order_sales_commission_pivot" model="ir.ui.view">
+             <field name="name">sales.commission.pivot</field>
+             <field name="model">sales.commission</field>
+             <field name="arch" type="xml">
+                 <pivot string="Sales Commission" disable_linking="True">
+                     <field name="confirmation_date" interval="month" type="row"/>
+                     <!-- <field name="order_total" type="measure"/> -->
+                     <field name="invoice_paid" type="measure"/>
+                     <field name="profit" type="measure"/>
+                     <field name="commission_percentage" type="measure"/>
+                     <field name="commission" type="measure"/>
+                     <field name="max_draw" type="measure"/>
+                     <field name="draw_till_date" type="measure"/>
+                 </pivot>
+             </field>
+        </record>
+
+        <record id="view_order_sales_commission_pending_pivot" model="ir.ui.view">
+             <field name="name">sales.unpaid.commission.pivot</field>
+             <field name="model">sales.unpaid.commission</field>
+             <field name="arch" type="xml">
+                 <pivot string="Sales Unpaid Commission" disable_linking="True">
+                     <field name="confirmation_date" interval="month" type="row"/>
+                     <!-- <field name="order_total" type="measure"/> -->
+                     <field name="invoice_paid" type="measure"/>
+                     <field name="profit" type="measure"/>
+                     <field name="commission_percentage" type="measure"/>
+                     <field name="commission" type="measure"/>
+                     <field name="max_draw" type="measure"/>
+                     <field name="draw_till_date" type="measure"/>
+                 </pivot>
+             </field>
+        </record>
+
+
+
+        <record id="view_generate_commission" model="ir.ui.view">
+            <field name="name">generate.sales.commission</field>
+            <field name="model">generate.sales.commission</field>
+            <field name="arch" type="xml">
+                <form string="Generate Commission">
+                    <sheet>
+                        <group col="4">
+                            <field name="month"/>
+                            <field name="report_type"/>
+                            <field name="salesperson_id" groups="sales_commission.group_sales_commission"/>
+                        </group>
+                    </sheet>
+                    <footer>
+                        <button string="View Commissions" type="object" name="generate_commission" class="btn-primary"/>
+                        <button special="cancel" string="Cancel" class="btn-default"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+
+        <record id="generate_sales_commission" model="ir.actions.act_window">
+            <field name="name">Generate commission</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">generate.sales.commission</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_generate_commission"/>
+            <field name="target">new</field>
+        </record>
+    </data>
+</odoo>

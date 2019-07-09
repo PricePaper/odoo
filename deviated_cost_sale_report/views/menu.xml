@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+    <data>
+
+         <menuitem id="menu_deviated_cost_sale_report"
+         name="Vendor Rebate Report"
+         action="action_deviated_cost_sale_report"
+         parent="sale.menu_sale_report"
+         sequence="12" />
+
+         <menuitem id="menu_deviated_cost_contract_view"
+         name="Rebate Contracts"
+         action="action_deviated_cost_contract"
+         parent="sale.menu_sale_report"
+         sequence="10"/>
+
+    </data>
+</odoo>

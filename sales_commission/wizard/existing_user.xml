@@ -1,0 +1,43 @@
+<odoo>
+    <data>
+        <record id="view_existing_customer" model="ir.ui.view">
+            <field name="name">search.existing.customer</field>
+            <field name="model">search.existing.customer</field>
+            <field name="arch" type="xml">
+                <form string="Search Existing Customer">
+                    <sheet>
+                        <group>
+                            <field name="search_string" required="1" />
+                        </group>
+                        <separator string="Search results"/>
+                        <field name="line_ids">
+                            <tree string="lines" editable="bottom" limit="100" create="0" delete="0">
+                                <field name="name" readonly="1"/>
+                                <field name="email" readonly="1"/>
+                                <field name="phone" readonly="1"/>
+                                <field name="mobile" readonly="1"/>
+                                <field name="tin" readonly="1"/>
+                                <field name="last_so" readonly="1"/>
+                                <field name="last_so_date" readonly="1"/>
+                            </tree>
+                        </field>
+                    </sheet>
+                    <footer>
+                        <button string="Close" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+
+        <record id="action_existing_user" model="ir.actions.act_window">
+            <field name="name">Search Existing Customer</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">search.existing.customer</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_existing_customer"/>
+            <field name="target">new</field>
+        </record>
+    </data>
+</odoo>

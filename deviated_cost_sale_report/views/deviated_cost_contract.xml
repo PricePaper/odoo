@@ -1,0 +1,64 @@
+<odoo>
+    <data>
+        <record id="view_deviated_cost_contract" model="ir.ui.view">
+            <field name="name">deviated.cost.contract.tree</field>
+            <field name="model">deviated.cost.contract</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="expiration_date"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_deviated_cost_contract_form" model="ir.ui.view">
+            <field name="name">deviated.cost.contract.form</field>
+            <field name="model">deviated.cost.contract</field>
+            <field name="arch" type="xml">
+                <form string="Rebate Contract">
+                    <sheet>
+                        <group col="4">
+                            <field name="name" required="1"/>
+                            <field name="expiration_date" required="1"/>
+                            <button name="%(action_upload_csv_wizard)d" type="action" string="Upload CSV File" context="{'contract_id':active_id}"/>
+                        </group>
+                        <group string="Products">
+                            <field name="partner_product_ids" nolabel="1">
+                                <tree editable="bottom">
+                                    <field name="product_id" required="1"/>
+                                    <field name="cost"/>
+                                </tree>
+                            </field>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_deviated_cost_contract_search" model="ir.ui.view">
+            <field name="name">deviated.cost.search</field>
+            <field name="model">deviated.cost.contract</field>
+            <field name="arch" type="xml">
+                <search string="Search Contracts">
+                    <field name="name" string="Contract name"/>
+                    <field name="expiration_date" string="Expiration Date"/>
+                    <filter string="Expiration Date Exceeded" name="is_exceded_expiry" domain="[('expiration_date','&lt;',((context_today()).strftime('%Y-%m-%d')+' '+'23:59:59'))]"/>
+                </search>
+            </field>
+        </record>
+
+        <record id="action_deviated_cost_contract" model="ir.actions.act_window">
+            <field name="name">Rebate Contracts</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">deviated.cost.contract</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="view_deviated_cost_contract_search"/>
+            <field name="help" type="html">
+              <p>
+                Create New Contracts.
+              </p>
+            </field>
+        </record>
+    </data>
+</odoo>

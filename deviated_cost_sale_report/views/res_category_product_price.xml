@@ -1,0 +1,33 @@
+<odoo>
+    <data>
+        <record id="view_partner_category_product" model="ir.ui.view">
+            <field name="name">res.category.product.tree</field>
+            <field name="model">res.category.product.cost</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="product_id"/>
+                    <field name="cost" />
+                    <field name="partner_category_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_partner_category_product_price" model="ir.ui.view">
+            <field name="name">res.category.product.form</field>
+            <field name="model">res.category.product.cost</field>
+            <field name="arch" type="xml">
+                <form string="Partner Category Products">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="product_id"/>
+                                <field name="cost" />
+                                <field name="partner_category_id" />
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+    </data>
+</odoo>

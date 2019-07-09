@@ -1,0 +1,51 @@
+<odoo>
+    <data>
+        <record id="view_price_maintanace_edit" model="ir.ui.view">
+            <field name="name">price.maintanace.edit</field>
+            <field name="model">price.maintanace.edit</field>
+            <field name="arch" type="xml">
+                <form string="Price Edit">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="product_id" invisible='1' />
+                                <field name="lst_price" />
+                                <field name="standard_price" readonly='1' />
+                            </group>
+                            <group string='Customer Pricelist Entries'>
+                                <field name="customer_price_ids" nolabel='1'>
+                                    <tree editable="top" create="0">
+                                        <field name="pricelist_id" required="1"/>
+                                        <field name="price" />
+                                        <field name="sale_uoms" invisible='1'/>
+                                        <field name="product_uom" />
+                                    </tree>
+                                </field>
+                            </group>
+                        </group>
+                        <group>
+                            <group>
+                                <separator string="Future Price"/><br/>
+                                <field name="future_price_ids" nolabel="1">
+                                    <tree create="0" editable="top">
+                                        <field name="price_change"/>
+                                        <!-- <field name="run_date"/> -->
+                                        <field name="price_filter"/>
+                                    </tree>
+                                </field>
+                            </group>
+                            <group>
+                                <field name="note" required='1'/>
+                            </group>
+                        </group>
+                    </sheet>
+                    <footer>
+                        <button string="Submit" type="object" name="edit_prices" />
+                        or
+                        <button string="Cancel" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+    </data>
+</odoo>

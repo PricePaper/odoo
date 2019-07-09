@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="report_saleorder_salesperson" inherit_id="sale.report_saleorder_document">
+        <xpath expr="//div[@t-if='doc.user_id.name']" position="replace"/>
+        <xpath expr="//div[@id='informations']" position="inside">
+            <div t-if="doc.sales_person_ids" class="col-xs-3">
+                <strong>Salespersons:</strong>
+                <t t-foreach="doc.sales_person_ids" t-as="s">
+                    <p t-esc="s.name"/>
+                </t>
+            </div>
+        </xpath>
+    </template>
+</odoo>

@@ -1,0 +1,74 @@
+<odoo>
+    <data>
+        <record id="special_item_requests_team" model="helpdesk.team">
+            <field name="name">Special Item Requests</field>
+            <field name="is_special_order_team" eval="True"/>
+        </record>
+
+        <record id="special_item_requests_ticket_type" model="helpdesk.ticket.type">
+            <field name="name">Special Item Requests</field>
+        </record>
+
+
+
+
+
+        <record id="special_item_requests_stage_new" model="helpdesk.stage">
+            <field name="name">New Special Requests</field>
+            <field name="team_ids" eval="[(4, ref('special_item_requests.special_item_requests_team'), 0)]"/>
+            <field name="sequence">100</field>
+        </record>
+
+
+        <record id="special_item_requests_stage_greg" model="helpdesk.stage">
+            <field name="name">Assign to Greg</field>
+            <field name="team_ids" eval="[(4, ref('special_item_requests.special_item_requests_team'), 0)]"/>
+            <field name="sequence">105</field>
+        </record>
+
+
+        <record id="special_item_requests_stage_available" model="helpdesk.stage">
+            <field name="name">Available</field>
+            <field name="team_ids" eval="[(4, ref('special_item_requests.special_item_requests_team'), 0)]"/>
+            <field name="sequence">110</field>
+        </record>
+
+        <record id="special_item_requests_stage_suggest" model="helpdesk.stage">
+            <field name="name">Suggest Equivalent</field>
+            <field name="team_ids" eval="[(4, ref('special_item_requests.special_item_requests_team'), 0)]"/>
+            <field name="sequence">115</field>
+        </record>
+
+        <record id="special_item_requests_stage_special" model="helpdesk.stage">
+            <field name="name">Request to Purchase</field>
+            <field name="team_ids" eval="[(4, ref('special_item_requests.special_item_requests_team'), 0)]"/>
+            <field name="sequence">120</field>
+        </record>
+
+        <record id="special_item_requests_stage_accept_suggested" model="helpdesk.stage">
+            <field name="name">Accepted Suggested Available</field>
+            <field name="team_ids" eval="[(4, ref('special_item_requests.special_item_requests_team'), 0)]"/>
+            <field name="sequence">125</field>
+        </record>
+
+        <record id="special_item_requests_stage_accept_alternative" model="helpdesk.stage">
+            <field name="name">Accepted Suggested Alternative</field>
+            <field name="team_ids" eval="[(4, ref('special_item_requests.special_item_requests_team'), 0)]"/>
+            <field name="sequence">130</field>
+        </record>
+
+        <record id="special_item_requests_stage_reject" model="helpdesk.stage">
+            <field name="name">Move Forward With Special item Request</field>
+            <field name="team_ids" eval="[(4, ref('special_item_requests.special_item_requests_team'), 0)]"/>
+            <field name="sequence">135</field>
+        </record>
+
+        <record id="special_item_requests_stage_close" model="helpdesk.stage">
+            <field name="name">Closed</field>
+            <field name="team_ids" eval="[(4, ref('special_item_requests.special_item_requests_team'), 0)]"/>
+            <field name="sequence">140</field>
+            <field name="is_close" eval="True"/>
+        </record>
+
+    </data>
+</odoo>

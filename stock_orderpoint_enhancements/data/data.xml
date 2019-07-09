@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record forcecreate="True" id="ir_cron_set_orderpoint" model="ir.cron">
+            <field name="name">Set Orderpoint: run scheduler</field>
+            <field name="model_id" ref="model_product_product"/>
+            <field name="state">code</field>
+            <field name="code">
+model.set_orderpoint_cron()
+            </field>
+            <field eval="True" name="active"/>
+            <field name="user_id" ref="base.user_root"/>
+            <field name="interval_number">7</field>
+            <field name="interval_type">days</field>
+            <field name="numbercall">-1</field>
+            <field eval="False" name="doall"/>
+        </record>
+
+        <record id="fbprophet_start_date" model="ir.config_parameter">
+            <field name="key">prophet_start_date</field>
+            <field name="value">2018-02-28</field>
+<!--            <field name="group_ids" eval="[(4, ref('base.group_user'))]" />-->
+        </record>
+
+    </data>
+</odoo>

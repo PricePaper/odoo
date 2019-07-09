@@ -1,0 +1,71 @@
+<odoo>
+    <data>
+        <record id="view_customer_product_price_tree" model="ir.ui.view">
+            <field name="name">customer.product.price.tree</field>
+            <field name="model">customer.product.price</field>
+            <field name="arch" type="xml">
+                <tree string="Customer Product Price" create="0" delete="0">
+                    <field name="pricelist_id" />
+                    <field name="product_id" />
+                    <field name="product_uom" />
+                    <field name="price" />
+                    <field name="partner_id" />
+                    <field name="price_last_updated" />                    
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_customer_product_price_search" model="ir.ui.view">
+            <field name="name">customer.product.price.search</field>
+            <field name="model">customer.product.price</field>
+            <field name="arch" type="xml">
+                <search string="Search Customer Product Price">
+                    <field name="partner_id" operator="child_of" string="Customer" />
+                    <field name="product_id" string="Product" />
+                    <field name="pricelist_id" string="Price List"/>
+                    <group expand="0" string="Group By">
+                        <filter string="Product" name="groupby_product" domain="[]" context="{'group_by':'product_id'}"/>
+                        <filter string="Customer" name="groupby_customer" domain="[]" context="{'group_by':'partner_id'}"/>
+                        <filter string="Price List" name="groupby_pricelist" domain="[]" context="{'group_by':'pricelist_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="view_customer_product_price_form" model="ir.ui.view">
+            <field name="name">customer.product.price.form</field>
+            <field name="model">customer.product.price</field>
+            <field name="arch" type="xml">
+                <form string="Customer Product Price" create="0" delete="0" edit="0">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="pricelist_id" required='1'/>
+                                <field name="partner_id" />
+                            </group>
+                            <group>
+                                <field name="product_id" required='1'/>
+                                <field name="product_uom" required='1'/>
+                                <field name="price" required='1'/>
+                            </group>
+                        <field name="sale_uoms" invisible="1"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_customer_product_price" model="ir.actions.act_window">
+            <field name="name">Customer Product Price</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">customer.product.price</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+              <p>
+                Create New Customer Product Price.
+              </p>
+            </field>
+        </record>
+    </data>
+</odoo>

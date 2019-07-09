@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="product_product_common_inherit_stock_orderpoint" model="ir.ui.view">
+            <field name="name">product.product.common.stock.orderpoint</field>
+            <field name="model">product.product</field>
+            <field name="inherit_id" ref="product.product_normal_form_view" />
+            <field name="arch" type="xml">
+                <xpath expr="//div[@name='button_box']" position="inside">
+                    <button class="oe_stat_button" name="show_forecast" type="object"  string="View Sales Forecast" icon="fas fa-signal"/>
+<!--                    <button class="oe_stat_button" name="compute_real_forecast_qty" type="object"  string="FBProphet test harness" icon="fas fa-signal"/>-->
+                </xpath>
+                <xpath expr="//field[@name='categ_id']" position="after">
+                    <field name="forecast_days"/>
+<!--                    <field name="real_forecast_qty"/>-->
+                    <field name="orderpoint_update_date"/>
+                    <field name="past_days"/>
+                    <field name="dont_use_fbprophet"/>
+                </xpath>
+            </field>
+        </record>
+<!--        <record id="product_supplierinfo_form_view_inherit_pricepaper" model="ir.ui.view">-->
+<!--            <field name="name">roduct.supplierinfo.form.view_inherit_pricepaper</field>-->
+<!--            <field name="model">product.supplierinfo</field>-->
+<!--            <field name="inherit_id" ref="product.product_supplierinfo_form_view" />-->
+<!--            <field name="arch" type="xml">-->
+<!--                <xpath expr="//field[@name='delay']" position="attributes">-->
+<!--                    <attribute name="readonly">1</attribute>-->
+<!--                </xpath>-->
+<!--            </field>-->
+<!--        </record>-->
+    </data>
+</odoo>

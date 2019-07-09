@@ -1,0 +1,41 @@
+<odoo>
+    <data>
+        <record id="purchase_order_inherit_price_paper" model="ir.ui.view">
+            <field name="name">Purchase.order.form.pricepaper</field>
+            <field name="model">purchase.order</field>
+            <field name="inherit_id" ref="purchase.purchase_order_form"/>
+            <field name="arch" type="xml">
+                <field name='payment_term_id' position='attributes'>
+                    <attribute name='domain'>[('order_type', '=', 'purchase')]</attribute>
+                </field>
+                <field name='date_order' position="after">
+                    <field name="release_date"/>
+                </field>
+
+                <xpath expr="//group[hasclass('oe_subtotal_footer')]" position="before">
+                    <group name="weight_volume" >
+                        <field name="total_volume"/>
+                        <field name="total_weight"/>
+                    </group>
+                </xpath>
+
+             <xpath expr="//field[@name='order_line']" position="before">
+                <button  type="object" name="add_sale_history_to_po_line"
+string="ADD ADDITIONAL PRODUCTS" icon="fa-history"/>
+            </xpath>
+
+                <xpath expr="//field[@name='order_line']/tree/field[@name='price_subtotal']" position="before">
+                    <field name="gross_volume"/>
+                    <field name="gross_weight"/>
+                </xpath>
+
+                <xpath expr="//field[@name='order_line']/tree/field[@name='product_qty']" position="before">
+                    <button name="show_sales_history" type="object" icon="fa-history" string="Show sales history"/>
+                </xpath>
+
+
+
+            </field>
+        </record>
+    </data>
+</odoo>

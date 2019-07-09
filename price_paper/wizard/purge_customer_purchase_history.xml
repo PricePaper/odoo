@@ -1,0 +1,38 @@
+<odoo>
+    <data>
+        <record id="view_purge_customer_purchase_history" model="ir.ui.view">
+            <field name="name">purge.customer.purchase.history</field>
+            <field name="model">purge.customer.purchase.history</field>
+            <field name="arch" type="xml">
+                <form string="Purge customer purchase history">
+                    <script>
+                        document.getElementsByClassName('modal-dialog modal-lg')[0].setAttribute('class', 'modal-dialog modal-sm');
+                    </script>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="purge_date" required="1" />
+                            </group>
+                        </group>
+                    </sheet>
+                    <footer>
+                        <button string="Submit" type="object" name="purge_history" confirm="This action will purge all the customer purcase history before the given date and cannot be undone. Click Ok to confirm."/>
+                        or
+                        <button string="Cancel" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+
+        <record id="action_purge_customer_purchase_history" model="ir.actions.act_window">
+            <field name="name">Purge Customer Purchase History</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">purge.customer.purchase.history</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_purge_customer_purchase_history"/>
+            <field name="target">new</field>
+        </record>
+    </data>
+</odoo>

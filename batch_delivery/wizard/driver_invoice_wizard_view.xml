@@ -1,0 +1,22 @@
+<odoo>
+    <data>
+        <record id="view_driver_invoice_wizard_form" model="ir.ui.view">
+            <field name="name">create.driver.invoice</field>
+            <field name="model">driver.invoice.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Create Driver Invoice">
+                    <sheet>
+                        <group>
+                            <field name="amount" required="1"/>
+                        </group>
+                    </sheet>
+                    <footer>
+                        <button string="Create Invoice" type="object" name="create_invoice"/>
+                        or
+                        <button string="Cancel" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+    </data>
+</odoo>

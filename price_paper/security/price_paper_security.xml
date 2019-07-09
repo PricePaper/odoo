@@ -1,0 +1,10 @@
+<odoo>
+    <data>
+        <record id="group_allow_more_than_credit_limit" model="res.groups">
+            <field name="name">Release Locked Sales Order</field>
+            <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+            <field name="users" eval="[(4, ref('base.user_root'))]"/>
+            <field name="category_id" ref="base.module_category_hidden"/>
+        </record>
+    </data>
+</odoo>
