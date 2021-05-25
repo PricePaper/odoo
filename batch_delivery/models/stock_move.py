@@ -18,6 +18,7 @@ class StockMove(models.Model):
     qty_available = fields.Float(String="Available Quantity", compute='_compute_qty_available')
     partner_id = fields.Many2one('res.partner', compute='_compute_partner_id', string="Partner", readonly=True)
     reason_id = fields.Many2one('stock.picking.return.reason', string='Reason  For Return (Stock)')
+    available_uom_ids = fields.Many2many(related='product_id.sale_uoms')
 
     @api.depends('sale_line_id.order_id.partner_shipping_id')
     def _compute_partner_id(self):
@@ -192,6 +193,13 @@ class StockMove(models.Model):
 
         for move in self:
             # qty_available always shows the quanity in requested (UOM).
+
+            move.product_uom_qty = move.product_id.uom_id._compute_quantity(
+                move.sale_line_id.product_uom_qty - move.sale_line_id.qty_delivered,
+                move.product_uom,
+                rounding_method='HALF-UP'
+            )
+
             move._do_unreserve()
             available_qty = move.qty_available
             if available_qty <= 0 and move.qty_update > 0:
@@ -211,7 +219,12 @@ class StockMove(models.Model):
                 if move.is_transit:
                     move.quantity_done = move.reserved_availability
 
-
+                if not move.reserved_availability:
+                    move.state = 'confirmed'
+                elif move.reserved_availability < move.product_uom_qty:
+                    move.state = 'partially_available'
+                elif move.reserved_availability <= move.product_uom_qty:
+                    move.state = 'assigned'
 
     @api.multi
     def action_show_reset_window(self):

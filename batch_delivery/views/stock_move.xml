@@ -13,6 +13,10 @@
                     <group>
                         <field name="qty_update"/>
                     </group>
+                    <group>
+                        <field name="available_uom_ids" invisible="1"/>
+                        <field name="product_uom" readonly="0" domain="[('id', 'in', available_uom_ids)]"/>
+                    </group>
                 </group>
                 <footer class="oe_edit_only">
                         <button string="Reset" type="object" name="action_reset" class="oe_highlight"/>
