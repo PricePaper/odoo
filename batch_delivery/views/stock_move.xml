@@ -15,7 +15,7 @@
                     </group>
                     <group>
                         <field name="available_uom_ids" invisible="1"/>
-                        <field name="product_uom" readonly="0" domain="[('id', 'in', available_uom_ids)]"/>
+                        <field name="product_uom" readonly="0" domain="[('id', 'in', available_uom_ids)]" groups="stock.group_stock_manager"/>
                     </group>
                 </group>
                 <footer class="oe_edit_only">
